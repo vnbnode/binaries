@@ -10,7 +10,7 @@ else
 fi
 
 # Logo
-sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/VNBnode-Guides/main/logo.sh | bash && sleep 1
+sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
 # Update
 echo -e "\e[1m\e[32m1. Update... \e[0m" && sleep 1
