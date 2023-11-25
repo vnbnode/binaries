@@ -24,7 +24,6 @@ sudo apt install curl tar wget clang pkg-config protobuf-compiler libssl-dev jq 
 sleep 1
 
 # Docker
-echo -e "\e[1m\e[32m3. Installing Docker... \e[0m" && sleep 1
 echo -e "\e[1m\e[32m3. Installing docker... \e[0m" && sleep 1
 sudo apt-get update
 sudo apt-get install \
