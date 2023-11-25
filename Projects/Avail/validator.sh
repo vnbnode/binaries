@@ -13,6 +13,7 @@ sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/VNBnode-Guides/main
 
 # Download new entrypoint.sh
 echo -e "\e[1m\e[32m1. Download new entrypoint.sh... \e[0m" && sleep 1
+cd $HOME
 curl -o entrypoint.sh https://raw.githubusercontent.com/vnbnode/binaries/main/Projects/Avail/entrypoint.sh
 chmod +x entrypoint.sh
 NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
