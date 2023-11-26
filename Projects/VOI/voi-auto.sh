@@ -47,8 +47,6 @@ sleep 1
 
 # Start Node VOI
 echo -e "\e[1m\e[32m5. Start Node VOI... \e[0m" && sleep 1
-sudo systemctl start voi && sudo systemctl enable voi
-sleep 1
-goal node catchup $(curl -s https://testnet-api.voi.nodly.io/v2/status|jq -r '.["last-catchpoint"]')
-sleep 1
+sudo systemctl start voi && sudo systemctl enable voi &&\
+goal node catchup $(curl -s https://testnet-api.voi.nodly.io/v2/status|jq -r '.["last-catchpoint"]') &&\
 goal node status -w 1000
