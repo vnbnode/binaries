@@ -41,7 +41,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sleep 1
 
 # Fill data
-echo -e "\e[1m\e[32m6. Fill data... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m4. Fill data... \e[0m" && sleep 1
 
 ## DIR_PATH
 if [ ! $moi_dirpath ]; then
@@ -98,7 +98,7 @@ source $HOME/.bash_profile
 sleep 1
 
 # Register the Guardian Node
-echo -e "\e[1m\e[32m7. Register the Guardian Node... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m5. Register the Guardian Node... \e[0m" && sleep 1
 SelectVersion="Please choose: \n 1. CPU from 2015 or later\n 2. CPU from 2015 or earlier"
 echo -e "${SelectVersion}"
 read -p "Enter index: " version;
@@ -110,7 +110,7 @@ fi
 sleep 1
 
 # Start the Guardian Node
-echo -e "\e[1m\e[32m8. Start the Guardian Node... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m6. Start the Guardian Node... \e[0m" && sleep 1
 SelectVersion="Please choose: \n 1. CPU from 2015 or later\n 2. CPU from 2015 or earlier"
 echo -e "${SelectVersion}"
 read -p "Enter index: " version;
@@ -122,7 +122,7 @@ fi
 sleep 1
 
 # Allow port 30333
-echo -e "\e[1m\e[32m5. Allow Port 1600 and 6000... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m7. Allow Port 1600 and 6000... \e[0m" && sleep 1
 sudo ufw allow 1600/tcp
 sudo ufw allow 6000/tcp
 sudo ufw allow 6000/udp
