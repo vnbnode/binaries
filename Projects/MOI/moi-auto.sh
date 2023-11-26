@@ -40,25 +40,6 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sleep 1
 
-# Pull image new
-echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-SelectVersion="Please choose: \n 1. CPU from 2015 or later\n 2. CPU from 2015 or earlier"
-echo -e "${SelectVersion}"
-read -p "Enter index: " version;
-if [ "$version" != "2" ];then
-	docker pull sarvalabs/moipod:latest
-else
-	docker pull sarvalabs/moipod:v0.3.0-port
-fi
-sleep 1
-
-# Allow port 30333
-echo -e "\e[1m\e[32m5. Allow Port 1600 and 6000... \e[0m" && sleep 1
-sudo ufw allow 1600/tcp
-sudo ufw allow 6000/tcp
-sudo ufw allow 6000/udp
-sleep 1
-
 # Fill data
 echo -e "\e[1m\e[32m6. Fill data... \e[0m" && sleep 1
 
@@ -138,6 +119,13 @@ if [ "$version" != "2" ];then
 else
 	sudo docker run --name moi --network host -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
 fi
+sleep 1
+
+# Allow port 30333
+echo -e "\e[1m\e[32m5. Allow Port 1600 and 6000... \e[0m" && sleep 1
+sudo ufw allow 1600/tcp
+sudo ufw allow 6000/tcp
+sudo ufw allow 6000/udp
 sleep 1
 
 # NAMES=`docker ps | egrep 'sarvalabs/moipod' | awk '{print $18}'`
