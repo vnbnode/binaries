@@ -30,6 +30,9 @@ goal account dump -a $addr | jq -r 'if (.onl == 1) then "You are online!" else "
 sleep 1
 
 cd $HOME
+rm $HOME/voi-auto.sh
+rm $HOME/voi-create.sh
+rm $HOME/participation.sh
 rm $HOME/register-active-auto.sh
 
 # Faucet again
