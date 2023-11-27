@@ -98,9 +98,9 @@ source $HOME/.bash_profile
 sleep 1
 
 ## Container name
-if [ ! $container_name ]; then
-    read -p "Container_name: " container_name
-    echo 'export container_name='\"${container_name}\" >> $HOME/.bash_profile
+if [ ! $container_name_moi ]; then
+    read -p "Container_name: " container_name_moi
+    echo 'export container_name_moi='\"${container_name_moi}\" >> $HOME/.bash_profile
 fi
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 source $HOME/.bash_profile
@@ -113,10 +113,10 @@ echo -e "${SelectVersion}"
 read -p "Enter index: " version;
 if [ "$version" != "2" ];then
 	sudo docker run -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:latest register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_keystore/keystore.json --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
-        sudo docker run --name $container_name -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd 
+        sudo docker run --name $container_name_moi -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd 
 else
 	sudo docker run -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_keystore/keystore.json --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
- 	sudo docker run --name $container_name -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
+ 	sudo docker run --name $container_name_moi -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
 fi
 sleep 1
 
@@ -133,10 +133,10 @@ rm $HOME/moi-auto.sh
 # Command check
 echo '====================== SETUP FINISHED ======================'
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mtail -f moi/log/3*\e[0m"
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f moi\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f container_name_moi\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start moi\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart moi\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop moi\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm moi\e[0m"
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start container_name_moi\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart container_name_moi\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop container_name_moi\e[0m"
+echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm container_name_moi\e[0m"
 echo '============================================================='
