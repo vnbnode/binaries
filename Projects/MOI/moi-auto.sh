@@ -97,32 +97,31 @@ echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 source $HOME/.bash_profile
 sleep 1
 
-# Register the Guardian Node
+## Container name
+if [ ! $container_name ]; then
+    read -p "Container_name: " container_name
+    echo 'export container_name='\"${container_name}\" >> $HOME/.bash_profile
+fi
+echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
+source $HOME/.bash_profile
+sleep 1
+
+# Register and Start the Guardian Node
 echo -e "\e[1m\e[32m5. Register the Guardian Node... \e[0m" && sleep 1
 SelectVersion="Please choose: \n 1. CPU from 2015 or later\n 2. CPU from 2015 or earlier"
 echo -e "${SelectVersion}"
 read -p "Enter index: " version;
 if [ "$version" != "2" ];then
 	sudo docker run -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:latest register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_keystore/keystore.json --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
+        sudo docker run --name $container_name -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd 
 else
 	sudo docker run -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_keystore/keystore.json --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
-fi
-sleep 1
-
-# Start the Guardian Node
-echo -e "\e[1m\e[32m6. Start the Guardian Node... \e[0m" && sleep 1
-SelectVersion="Please choose: \n 1. CPU from 2015 or later\n 2. CPU from 2015 or earlier"
-echo -e "${SelectVersion}"
-read -p "Enter index: " version;
-if [ "$version" != "2" ];then
-	sudo docker run --name moi -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd 
-else
-	sudo docker run --name moi -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
+ 	sudo docker run --name $container_name -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.3.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
 fi
 sleep 1
 
 # Allow port 30333
-echo -e "\e[1m\e[32m7. Allow Port 1600 and 6000... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m6. Allow Port 1600 and 6000... \e[0m" && sleep 1
 sudo ufw allow 1600/tcp
 sudo ufw allow 6000/tcp
 sudo ufw allow 6000/udp
