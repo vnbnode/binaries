@@ -30,13 +30,9 @@ sudo systemctl stop algorand &&
 sudo systemctl disable algorand 
 sleep 1
 
-# Setup goal
-echo -e "\e[1m\e[32m3. Setup goal... \e[0m" && sleep 1
-echo -e "\nexport ALGORAND_DATA=/var/lib/algorand/" >> ~/.bashrc && source ~/.bashrc
-sleep 1
-
 # Configure Node VOI
-echo -e "\e[1m\e[32m4. Configure Node VOI... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m3. Configure Node VOI... \e[0m" && sleep 1
+echo -e "\nexport ALGORAND_DATA=/var/lib/algorand/" >> ~/.bashrc && source ~/.bashrc &&
 sudo algocfg set -p DNSBootstrapID -v "<network>.voi.network" -d /var/lib/algorand/ &&
 sudo algocfg set -p EnableCatchupFromArchiveServers -v true -d /var/lib/algorand/ &&
 sudo chown algorand:algorand /var/lib/algorand/config.json &&
@@ -48,7 +44,8 @@ sudo sed -i 's/Algorand daemon/Voi daemon/g' /etc/systemd/system/voi.service
 sleep 1
 
 # Start Node VOI
-echo -e "\e[1m\e[32m5. Start Node VOI... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m4. Start Node VOI... \e[0m" && sleep 1
 sudo systemctl start voi && sudo systemctl enable voi &&
+goal node status &&
 goal node catchup $(curl -s https://testnet-api.voi.nodly.io/v2/status|jq -r '.["last-catchpoint"]') &&
 goal node status -w 1000
