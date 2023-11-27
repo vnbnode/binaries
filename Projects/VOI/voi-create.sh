@@ -45,5 +45,4 @@ goal account export -a $addr
 sleep 60
 
 cd $HOME
-rm $HOME/voi-auto.sh
 rm $HOME/voi-create.sh
