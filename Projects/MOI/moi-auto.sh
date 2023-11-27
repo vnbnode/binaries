@@ -128,6 +128,7 @@ sudo ufw allow 6000/udp
 sleep 1
 
 # NAMES=`docker ps | egrep 'sarvalabs/moipod' | awk '{print $18}'`
+cd $HOME
 rm $HOME/moi-auto.sh
 
 # Command check
