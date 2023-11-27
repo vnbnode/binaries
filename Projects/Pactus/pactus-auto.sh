@@ -59,9 +59,18 @@ echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 source $HOME/.bash_profile
 sleep 1
 
+## Container name
+if [ ! $container_name_pactus ]; then
+    read -p "Container_name: " container_name_pactus
+    echo 'export container_name_pactus='\"${container_name_pactus}\" >> $HOME/.bash_profile
+fi
+echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
+source $HOME/.bash_profile
+sleep 1
+
 # Run Node
 echo -e "\e[1m\e[32m6. Run node pactus... \e[0m" && sleep 1
-docker run --network host -it --name pactus -v $HOME/pactus/testnet:/pactus -d --name pactus pactus/pactus start -w /pactus -p $passpactus
+docker run --network host -it --name $container_name_pactus -v $HOME/pactus/testnet:/pactus -d --name pactus pactus/pactus start -w /pactus -p $passpactus
 sleep 1
 
 # NAMES=`docker ps | egrep 'pactus/pactus' | awk '{print $13}'`
@@ -69,10 +78,10 @@ rm $HOME/pactus-auto.sh
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f pactus\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f $container_name_pactus\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start pactus\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart pactus\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop pactus\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm pactus\e[0m"
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start $container_name_pactus\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart $container_name_pactus\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop $container_name_pactuss\e[0m"
+echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm $container_name_pactus\e[0m"
 echo '============================================================='
