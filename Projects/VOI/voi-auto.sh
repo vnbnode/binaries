@@ -45,6 +45,7 @@ sleep 1
 # Start Node VOI
 echo -e "\e[1m\e[32m4. Start Node VOI... \e[0m" && sleep 1
 systemctl daemon-reload
+echo "export ALGORAND_DATA=/var/lib/algorand/" >> $HOME/.bashrc && source $HOME/.bashrc
 sudo systemctl start voi && sudo systemctl enable voi
 goal node status
 goal node catchup $(curl -s https://testnet-api.voi.nodly.io/v2/status|jq -r '.["last-catchpoint"]')
