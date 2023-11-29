@@ -44,4 +44,4 @@ echo -e "\e[1;32mCheck status: \e[0m\e[1;36mhttps://cswenor.github.io/voi-propos
 echo -e "\e[1;32mCheck reward: \e[0m\e[1;36mhttps://voi-node-info.boeieruurd.com/\e[0m"
 
 # Command check
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mgoal node status -w 1000\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mtail -f /var/lib/algorand/node.log\e[0m"
