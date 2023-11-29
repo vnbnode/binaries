@@ -47,5 +47,5 @@ systemctl daemon-reload
 sudo systemctl start voi && sudo systemctl enable voi
 goal node status
 goal node catchup $(curl -s https://testnet-api.voi.nodly.io/v2/status|jq -r '.["last-catchpoint"]')
-goal node status -w 1000
 rm $HOME/voi-auto.sh
+goal node status -w 1000
