@@ -114,9 +114,11 @@ read -p "Enter index: " version;
 if [ "$version" != "2" ];then
 	sudo docker run -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:latest register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_dirpath/keystore.json --mnemonic-keystore-password $moi_passwd --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
         sudo docker run --name $container_name_moi -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
+        docker update --restart=unless-stopped $container_name_moi
 else
         sudo docker run -p 1600:1600/tcp -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:v0.4.0-port register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_dirpath/keystore.json --mnemonic-keystore-password $moi_passwd --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
 	sudo docker run --name $container_name_moi -p 6000:6000/tcp -p 6000:6000/udp -p 1600:1600 -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.4.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
+        docker update --restart=unless-stopped $container_name_moi
 fi
 sleep 1
 
@@ -133,7 +135,7 @@ rm $HOME/moi-auto.sh
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mtail -f moi/log/3*\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mtail -f $moi_dirpath/log/3*\e[0m"
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f $container_name_moi\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
 echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start $container_name_moi\e[0m"
