@@ -73,6 +73,11 @@ curl https://rpc.cryptware.io/genesis | jq '.result.genesis' > ~/.union/config/g
 docker run -u $(id -u):$(id -g) -v ~/.union:/.union -it ghcr.io/unionlabs/uniond:$UNIOND_VERSION init $MONIKER bn254 --home /.union
 alias uniond='docker run -v ~/.union:/.union --network host -it ghcr.io/unionlabs/uniond:$UNIOND_VERSION --home /.union'
 
+# SEEDS
+SEEDS="a069a341154484298156a56ace42b6e6a71e7b9d@blazingbit.io:27656,8a07752a234bb16471dbb577180de7805ba6b5d9@union.testnet.4.seed.poisonphang.com:26656"
+sleep 1
+sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/" $HOME/.union/config/config.toml
+
 # Run Node Uniond
 echo -e "\e[1m\e[32m8. Run Node Uniond... \e[0m" && sleep 1
 cd $HOME
