@@ -112,9 +112,9 @@ sudo systemctl start cosmovisor
 
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-echo '====================== SETUP FINISHED ======================'
+echo '====================== SETUP FINISHED =============================================================='
 echo 'echo -e "\e[1;32mCheck status: \e[0m\e[1;36m${CYAN}sudo systemctl status cosmovisor\e[0m"
 echo -e "\e[1;32mCheck logs: \e[0m\e[1;36m${CYAN}sudo systemctl status cosmovisor\e[0m"
 echo -e "\e[1;32mCheck synchronization: \e[0m\e[1;36m${CYAN}$HOME/.lava/cosmovisor/current/bin/lavad status | jq .SyncInfo.catching_up\e[0m"
 echo -e "\e[1;32mMore commands: \e[0m\e[1;36m${CYAN}$GITHUB${NC}\e[0m"
-echo '============================================================='
+echo '====================================================================================================='
