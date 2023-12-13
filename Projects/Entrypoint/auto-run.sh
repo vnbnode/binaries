@@ -97,12 +97,17 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 EOF
 sudo systemctl daemon-reload
-sudo systemctl enable entrypointd
-
+sudo systemctl enable entrypointd 
+sleep 1
 # Download Snapshot for fast sync
 rm -rf $HOME/.entrypoint/data $HOME/.entrypoint/wasmPath
-curl https://testnet-files.itrocket.net/entrypoint/snap_entrypoint.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.entrypoint
-
+entrypointd tendermint unsafe-reset-all --home $HOME/.entrypoint
+if curl -s --head curl https://testnet-files.itrocket.net/entrypoint/snap_entrypoint.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://testnet-files.itrocket.net/entrypoint/snap_entrypoint.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.entrypoint
+    else
+  echo no have snap
+fi
+sleep 1
 # Start the Node
 sudo systemctl restart entrypointd
 
