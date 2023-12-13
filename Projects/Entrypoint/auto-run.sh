@@ -49,8 +49,8 @@ source $HOME/.bash_profile
 echo -e "\e[1m\e[32m3. Downloading and building binaries--> \e[0m" && sleep 1
 
 cd $HOME
-curl -o entrypointd https://github.com/entrypoint-zone/testnets/releases/download/v1.3.0/entrypointd-1.3.0-linux-amd64
-sudo chmod +x entrypointd
+wget -O entrypointd https://github.com/entrypoint-zone/testnets/releases/download/v1.3.0/entrypointd-1.3.0-linux-amd64
+chmod +x entrypointd
 sudo mv entrypointd /usr/local/bin
 entrypointd version
 
@@ -59,14 +59,13 @@ entrypointd config keyring-backend test
 entrypointd init "$NODE_MONIKER" --chain-id $CHAIN_ID
 
 # Add Genesis File and Addrbook
-curl -o $HOME/.entrypoint/config/genesis.json "https://raw.githubusercontent.com/vnbnode/binaries/main/Projects/Entrypoint/entrypoint.sh"
-curl -o $HOME/.entrypoint/config/addrbook.json "https://raw.githubusercontent.com/vnbnode/binaries/main/Projects/Entrypoint/addrbook.json"
+wget -O $HOME/.entrypoint/config/genesis.json https://testnet-files.itrocket.net/entrypoint/genesis.json
+wget -O $HOME/.entrypoint/config/addrbook.json https://testnet-files.itrocket.net/entrypoint/addrbook.json
 
 #Configure Seeds and Peers
-peers="81bf2ade773a30eccdfee58a041974461f1838d8@185.107.68.148:26656,d57c7572d58cb3043770f2c0ba412b35035233ad@80.64.208.169:26656"
-sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.entrypoint/config/config.toml
-seeds=""
-sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.entrypoint/config/config.toml
+SEEDS="e1b2eddac829b1006eb6e2ddbfc9199f212e505f@entrypoint-testnet-seed.itrocket.net:34656"
+PEERS="7048ee28300ffa81103cd24b2af3d1af0c378def@entrypoint-testnet-peer.itrocket.net:34656,e0bf0782c0fc1ee550d2eed0de66b0b1825776ab@167.235.39.5:46656,05419a6f8cc137c4bb2d717ed6c33590aaae022d@213.133.100.172:26878,b17f3f6a57a42081749c8f580af3567b5646f0bf@[2406:da1e:df4:c801:688:ec9c:886:99c9]:26646,d57c7572d58cb3043770f2c0ba412b35035233ad@80.64.208.169:26656,432963f1d61d0d32c9286248c4b5cfe1d89f7541@49.12.123.87:22226,75e83d67504cbfacdc79da55ca46e2c4353816e7@65.109.92.241:3106,6e38397e09a2755841e2f350ba1ff8883a66551a@[2a01:4f9:4a:2864::2]:11556,2418cc16fb1ee6218c01f07571afde0909d6e777@65.109.113.228:61056,f94f05a942b987e71a92cd634915c241f58eac7c@65.109.68.87:29656,fcdd0c5810ac038cb02c806a837296eab334959b@176.103.222.85:26656"
+sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.entrypoint/config/config.toml
 
 # Set Pruning, Enable Prometheus, Gas Prices, and Indexer
 PRUNING="custom"
