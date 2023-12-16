@@ -89,6 +89,8 @@ docker compose up -d
 cd $HOME
 rm $HOME/union-auto.sh
 
+# Logo
+sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 # Command check
 echo '====================== SETUP FINISHED ======================'
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f union-node\e[0m"
