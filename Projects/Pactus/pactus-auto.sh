@@ -71,6 +71,7 @@ sleep 1
 # Run Node
 echo -e "\e[1m\e[32m6. Run node pactus... \e[0m" && sleep 1
 docker run --network host -it --name $container_name_pactus -v $HOME/pactus/testnet:/pactus -d --name pactus pactus/pactus start -w /pactus -p $passpactus
+docker update --restart=unless-stopped pactus
 sleep 1
 
 # NAMES=`docker ps | egrep 'pactus/pactus' | awk '{print $13}'`
