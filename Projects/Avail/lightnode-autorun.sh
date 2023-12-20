@@ -24,6 +24,8 @@ sleep 0.5
 tar -xvzf avail-light-linux-amd64.tar.gz
 cp avail-light-linux-amd64 avail-light
 ./avail-light --network goldberg
+echo $?
+0
 
 # Create Service file
 tee /etc/systemd/system/availd.service > /dev/null << EOF
