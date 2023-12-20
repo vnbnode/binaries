@@ -11,7 +11,7 @@ fi
 
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-echo '================================== SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.4 BY VNBNODE =================================='&& sleep 1
+echo '==== SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.4 BY VNBNODE ==='&& sleep 1
 sudo apt update
 sudo apt install make clang pkg-config libssl-dev build-essential
 mkdir -p ${HOME}/avail-light
