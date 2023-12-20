@@ -25,8 +25,8 @@ tar -xvzf avail-light-linux-amd64.tar.gz
 cp avail-light-linux-amd64 avail-light
 ./avail-light --network goldberg
 echo $?
-0
-
+if [ $? -eq 0 ] 
+then
 # Create Service file
 tee /etc/systemd/system/availd.service > /dev/null << EOF
 [Unit] 
@@ -41,7 +41,24 @@ RestartSec=120
 [Install] 
 WantedBy=multi-user.target
 EOF
-
+  exit 0 
+else
+# Create Service file
+tee /etc/systemd/system/availd.service > /dev/null << EOF
+[Unit] 
+Description=Avail Light Client
+After=network.target
+StartLimitIntervalSec=0
+[Service] 
+User=root 
+ExecStart=/root/avail-light/avail-light --network goldberg
+Restart=always 
+RestartSec=120
+[Install] 
+WantedBy=multi-user.target
+EOF
+exit 1 
+fi
 sudo systemctl daemon-reload
 sudo systemctl enable availd
 
