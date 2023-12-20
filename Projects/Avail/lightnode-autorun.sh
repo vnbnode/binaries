@@ -12,28 +12,33 @@ fi
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.4 BY VNBNODE ==============='&& sleep 1
-sudo apt update
-sudo apt install make clang pkg-config libssl-dev build-essential
-mkdir -p ${HOME}/avail-light
+
+# Update & Install Rust
+sudo apt-get update
+sudo apt install build-essential
+sudo apt install --assume-yes git clang curl libssl-dev protobuf-compiler
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+rustup default stable
+rustup update
+rustup update nightly
+rustup target add wasm32-unknown-unknown --toolchain nightly
+
+# Download and run  Avail Light Client
+git clone https://github.com/availproject/avail-light.git
 cd avail-light
-sleep 1
+git checkout v1.7.4
+cargo build --release
 
-# Download pre-build
-wget https://github.com/availproject/avail-light/releases/download/v1.7.4/avail-light-linux-amd64.tar.gz
-sleep 0.5
-tar -xvzf avail-light-linux-amd64.tar.gz
-cp avail-light-linux-amd64 avail-light
-./avail-light --network goldberg && exit
-
-# Create Service file
+# Setup service file
 tee /etc/systemd/system/availd.service > /dev/null << EOF
-[Unit] 
+[Unit]
 Description=Avail Light Client
 After=network.target
 StartLimitIntervalSec=0
 [Service] 
 User=root 
-ExecStart=/root/avail-light/avail-light --network goldberg
+ExecStart= /root/avail-light/target/release/avail-light --network goldberg
 Restart=always 
 RestartSec=120
 [Install] 
@@ -42,8 +47,6 @@ EOF
 
 sudo systemctl daemon-reload
 sudo systemctl enable availd
-
-# Start light client
 systemctl start availd.service
 
 # Logo
