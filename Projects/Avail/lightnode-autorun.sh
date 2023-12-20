@@ -51,4 +51,4 @@ sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/
 echo '============================================== SETUP FINISHED =============================================='
 echo -e "\e[1;32m Check status: \e[0m\e[1;36m${CYAN} systemctl status availd.service ${NC}\e[0m"
 echo -e "\e[1;32m Check logs  : \e[0m\e[1;36m${CYAN} journalctl -f -u availd ${NC}\e[0m"
-echo '============================================== SETUP FINISHED ====================================================='
+echo '========================================== SETUP FINISHED ================================================='
