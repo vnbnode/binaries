@@ -26,8 +26,6 @@ wget https://github.com/availproject/avail-light/releases/download/v1.7.4/avail-
 tar -xvzf avail-light-linux-amd64.tar.gz
 cp avail-light-linux-amd64 avail-light
 
-./avail-light --network goldberg &
-
 tee /etc/systemd/system/availd.service > /dev/null << EOF
 [Unit]
 Description=Avail Light Client
