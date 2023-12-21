@@ -29,7 +29,7 @@ ${da_bin} \
 	--offchain-worker=Always \
 	--enable-offchain-indexing=true \
 	--execution native-else-wasm \
-        --validator \
+    --validator \
 	--name=${DA_NAME} \
 	--chain=${DA_CHAIN} \
 	--port=${DA_P2P_PORT} \
