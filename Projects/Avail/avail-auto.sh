@@ -56,7 +56,7 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run -v $(pwd)$HOME/avail/state:/da/state:rw -v $(pwd)$HOME/avail/keystore:/da/keystore:rw -e DA_CHAIN=goldberg --name avail -e DA_NAME=${VALIDATOR} --network host --validator -d --restart unless-stopped availj/avail:v1.8.0.4
+sudo docker run -v $(pwd)$HOME/avail/state:/da/state:rw -v $(pwd)$HOME/avail/keystore:/da/keystore:rw -e DA_CHAIN=goldberg --name avail -e DA_NAME=${VALIDATOR} --network host -d --restart unless-stopped availj/avail:v1.8.0.4
 sleep 1
 
 # Allow port 30333
