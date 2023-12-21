@@ -51,7 +51,7 @@ sleep 1
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-docker pull availj/avail:v1.8.0.3
+docker pull availj/avail:v1.8.0.4
 sleep 1
 
 # Run Node
