@@ -22,18 +22,22 @@ sudo apt -q update
 sudo apt -qy install curl git jq lz4 build-essential
 sudo apt -qy upgrade
 sudo apt install build-essential
-sudo apt install -y unzip logrotate sed wget coreutils systemd
+sudo apt install -y unzip logrotate git jq sed wget curl coreutils systemd
 # Create the temp dir for the installation
 temp_folder=$(mktemp -d) && cd $temp_folder
 
 #INSTALL GO
-echo -e "\e[1m\e[32m2. Installing GO--> \e[0m" && sleep 1
-sudo rm -rf /usr/local/go
-curl -Ls https://go.dev/dl/go1.20.5.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
-eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
-source $HOME/.bash_profile
+### Configurations
+go_package_url="https://go.dev/dl/go1.20.5.linux-amd64.tar.gz"
+go_package_file_name=${go_package_url##*\/}
+# Download GO
+wget -q $go_package_url
+# Unpack the GO installation file
+sudo tar -C /usr/local -xzf $go_package_file_name
+# Environment adjustments
+echo "export PATH=\$PATH:/usr/local/go/bin" >>~/.profile
+echo "export PATH=\$PATH:\$(go env GOPATH)/bin" >>~/.profile
+source ~/.profile
 go version
 
 #Install all Binaries
@@ -80,7 +84,6 @@ my-node \
 --home $lavad_home_folder \
 --overwrite
 cp genesis_json/genesis.json $lava_config_folder/genesis.json
-cosmovisor version
 
 echo -e "\e[1m\e[32m8. Create Cosmovisor unit file--> \e[0m" && sleep 1
 echo "[Unit]
