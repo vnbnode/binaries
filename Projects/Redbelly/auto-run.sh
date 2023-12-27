@@ -46,3 +46,7 @@ sleep 1
 sudo apt-get update
 sudo apt-get install -y cron curl unzip
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+
+# Download binaries and genesis
+wget https://github.com/vnbnode/tempo/blob/master/rbbc
+wget https://github.com/vnbnode/binaries/main/Projects/Redbelly/
