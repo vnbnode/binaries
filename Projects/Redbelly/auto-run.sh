@@ -59,3 +59,29 @@ sudo ufw allow 80
 sudo ufw allow 8545
 sudo ufw allow 1888
 sudo ufw allow 1111
+
+tee /root/config.yaml  > /dev/null << EOF
+ip: $fqn
+id: $ID
+genesisContracts:
+  bootstrapContractsRegistryAddress: 0xDAFEA492D9c6733ae3d56b7Ed1ADB60692c98Bc5
+consensusPort: 1888
+grpcPort: 1111
+privateKeyHex:$Privkey
+poolConfig:
+  initCap: 5
+  maxCap: 30
+  idleTimeout: 180
+clientKeepAliveConfig:
+  keepAliveTime: 1
+  keepAliveTimeOut: 20
+serverKeepAliveConfig:
+  serverKeepAliveTime: 70
+  serverKeepAliveTimeOut: 10
+  minTime: 60
+rpcPoolConfig:
+  maxOpenCount: 1
+  maxIdleCount: 1
+  maxIdleTime: 30
+  EOF
+  
