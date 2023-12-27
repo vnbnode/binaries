@@ -37,7 +37,6 @@ cpath="/etc/letsencrypt/live/"$fqn"/fullchain.pem"
 ppath="/etc/letsencrypt/live/"$fqn"/privkey.pem"
 sleep 1
 chmod +x config.yaml
-chmod +x rbbc
 chmod +x genesis.json
 
 # Setup observe
