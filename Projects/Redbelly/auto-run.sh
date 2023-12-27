@@ -48,5 +48,14 @@ sudo apt-get install -y cron curl unzip
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 
 # Download binaries and genesis
+cd $HOME
 wget https://github.com/vnbnode/tempo/blob/master/rbbc
-wget https://github.com/vnbnode/binaries/main/Projects/Redbelly/
+wget https://github.com/vnbnode/binaries/blob/main/Projects/Redbelly/genesis.json
+
+# enable firewall
+sudo ufw enable -y
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 8545
+sudo ufw allow 1888
+sudo ufw allow 1111
