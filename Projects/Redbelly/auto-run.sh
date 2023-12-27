@@ -13,18 +13,16 @@ fi
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
 # Set DNS Configuration
-echo 'Example Fully Qualified Domain Name:  https://redbelly.vnbnode.com'
-read -r -p "Enter Your Fully Qualified Domain Name: " fqdn
+echo 'Example Fully Qualified Domain Name: redbelly.vnbnode.com'
+read -r -p "Enter Your Domain Name without https:// :" fqn
 sleep 0.5
-read -r -p "Enter Your Domain Name without https://" fqn
+read -r -p "Enter Your Email : " email
 sleep 0.5
-read -r -p "Enter Your Email" email
+read -r -p "Enter Node ID - As Node Registration : " ID
 sleep 0.5
-read -r -p "Enter Node ID - As Node Registration" ID
+read -r -p "Enter signing address : " Signing
 sleep 0.5
-read -r -p "Enter signing address" Signing
-sleep 0.5
-read -r -p "Enter Signing privatekey" Privkey
+read -r -p "Enter Signing privatekey : " Privkey
 sleep 1
 
 # Update system and install build tools
