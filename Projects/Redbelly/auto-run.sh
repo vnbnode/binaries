@@ -84,7 +84,8 @@ rpcPoolConfig:
   maxOpenCount: 1
   maxIdleCount: 1
   maxIdleTime: 30
-  EOF
+EOF
+
 cpath="/etc/letsencrypt/live/"$fqn"/fullchain.pem"
 ppath="/etc/letsencrypt/live/"$fqn"/privkey.pem"
 sleep 1
