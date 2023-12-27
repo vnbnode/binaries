@@ -49,7 +49,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 
 # Download binaries and genesis
 cd $HOME
-wget https://github.com/vnbnode/tempo/blob/master/rbbc
+wget https://github.com/vnbnode/tempo/blob/master/rbbc.bin
 wget https://github.com/vnbnode/binaries/blob/main/Projects/Redbelly/genesis.json
 
 # enable firewall
