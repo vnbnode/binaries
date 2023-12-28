@@ -67,7 +67,7 @@ genesisContracts:
   bootstrapContractsRegistryAddress: 0xDAFEA492D9c6733ae3d56b7Ed1ADB60692c98Bc5
 consensusPort: 1888
 grpcPort: 1111
-privateKeyHex:$Privkey
+privateKeyHex: $Privkey
 poolConfig:
   initCap: 5
   maxCap: 30
