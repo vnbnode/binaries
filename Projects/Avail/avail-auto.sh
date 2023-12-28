@@ -65,6 +65,8 @@ sudo ufw allow 30333/tcp
 sudo ufw allow 30333/udp
 sleep 1
 
+rm $HOME/avail-auto.sh
+
 NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
 
 # Command check
