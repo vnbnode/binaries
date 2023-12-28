@@ -47,7 +47,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 
 # Download binaries and genesis
 cd $HOME
-wget https://github.com/vnbnode/binaries/blob/main/Projects/Redbelly/genesis.json
 
 # enable firewall
 sudo ufw enable
@@ -135,6 +134,7 @@ chmod +x start-rbn.sh
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 echo '============================ COPY BINARIES FILE ==============================='
 echo '======= Now copy to binaries file to $HOME/root/ then rename it to rbbc ======='
+echo '============== Now copy to genesis file to $HOME/root/ =============='
 echo -e "\e[1;32m Run node: \e[0m\e[1;36m${CYAN} ./start-rbn.sh ${NC}\e[0m"
 echo '=============================== SETUP FINISHED ==============================='
 echo -e "\e[1;32m Check status: \e[0m\e[1;36m${CYAN} pgrep rbbc ${NC}\e[0m"
