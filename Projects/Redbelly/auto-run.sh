@@ -47,6 +47,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 
 # Download binaries and genesis
 cd $HOME
+wget https://raw.githubusercontent.com/vnbnode/binaries/main/Projects/Redbelly/genesis.json
 
 # enable firewall
 sudo ufw enable
