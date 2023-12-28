@@ -56,7 +56,7 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-docker run -v ./node-data/:/da/node-data availj/avail:v1.8.0.4 --chain goldberg --name ${VALIDATOR} --validator -d /da/node-data
+docker run --network host -v ./node-data/:/da/node-data availj/avail:v1.8.0.4 --chain goldberg --name ${VALIDATOR} --validator -d /da/node-data
 sleep 1
 
 # Allow port 30333
