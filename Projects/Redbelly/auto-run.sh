@@ -22,7 +22,7 @@ read -r -p "Enter Node ID - As Node Registration : " ID
 sleep 0.5
 read -r -p "Enter signing address : " Signing
 sleep 0.5
-read -r -p "Enter Signing privatekey : " Privkey
+read -r -p "Enter Signing privatekey- Please Use fresh new wallet: " Privkey
 sleep 1
 
 # Update system and install build tools
@@ -88,8 +88,6 @@ EOF
 cpath="/etc/letsencrypt/live/"$fqn"/fullchain.pem"
 ppath="/etc/letsencrypt/live/"$fqn"/privkey.pem"
 sleep 1
-chmod +x config.yaml
-chmod +x genesis.json
 
 # Setup observe
 
@@ -98,6 +96,7 @@ tee /root/observe.sh > /dev/null << EOF
 # filename: observe.sh
 if [ ! -d rbn ]; then
   echo "rbn doesnt exist. Initialising redbelly"
+  chmod +x genesis.json
   mkdir -p rbn
   mkdir -p consensus
   cp config.yaml ./consensus
@@ -122,6 +121,8 @@ tee /root/start-rbn.sh > /dev/null << EOF
 # filename: start-rbn.sh
 mkdir -p binaries
 mkdir -p consensus
+chmod +x genesis.json
+chmod +x config.yaml
 chmod +x rbbc
 cp rbbc binaries/rbbc
 mkdir -p logs
