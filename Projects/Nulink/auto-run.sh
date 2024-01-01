@@ -55,7 +55,7 @@ virtualenv /root/nulink-venv
 source /root/nulink-venv/bin/activate
 wget https://download.nulink.org/release/core/nulink-0.5.0-py3-none-any.whl
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
+pip install --upgrade pip
 pip install nulink-0.5.0-py3-none-any.whl
 source /root/nulink-venv/bin/activate
 
@@ -92,7 +92,7 @@ nulink/nulink nulink ursula init \
 --network horus \
 --payment-provider https://data-seed-prebsc-2-s2.binance.org:8545 \
 --payment-network bsc_testnet \
---operator-address 0x$wallet \
+--operator-address $wallet \
 --max-gas-price 10000000000
 
 #Launch the Node
