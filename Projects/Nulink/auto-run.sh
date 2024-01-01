@@ -102,8 +102,8 @@ nulink/nulink nulink ursula init \
 docker run --restart on-failure -d \
 --name ursula \
 -p 9151:9151 \
--v </path/to/host/machine/directory>:/code \
--v </path/to/host/machine/directory>:/home/circleci/.local/share/nulink \
+-v /root/nulink:/code \
+-v /root/nulink:/home/circleci/.local/share/nulink \
 -e NULINK_KEYSTORE_PASSWORD \
 -e NULINK_OPERATOR_ETH_PASSWORD \
 nulink/nulink nulink ursula run --no-block-until-ready
