@@ -73,12 +73,12 @@ read -r -p "NULINK_OPERATOR_ETH_PASSWORD : " NULINK_OPERATOR_ETH_PASSWORD
 sleep 0.5
 echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} YOUR KEYSTORE ${NC}\e[0m"
 filename=$(basename ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
-echo $filename
+export filename1=$filename
 sleep 1
 echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} COPY YOUR KEYSTORE ${NC}\e[0m"
 evm=$(grep -oP '(?<="address":")[^"]+' ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
 wallet='0x'$evm
-echo $wallet
+export wallet1=$wallet
 sleep 1
 
 # Initialize Node Configuration
@@ -89,12 +89,12 @@ docker run -it --rm \
 -v /root/nulink:/home/circleci/.local/share/nulink \
 -e NULINK_KEYSTORE_PASSWORD \
 nulink/nulink nulink ursula init \
---signer keystore:///$filename \
+--signer keystore:///code/$filename1 \
 --eth-provider https://data-seed-prebsc-2-s2.binance.org:8545 \
 --network horus \
 --payment-provider https://data-seed-prebsc-2-s2.binance.org:8545 \
 --payment-network bsc_testnet \
---operator-address $wallet \
+--operator-address $wallet1 \
 --max-gas-price 10000000000
 
 #Launch the Node
