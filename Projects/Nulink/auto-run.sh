@@ -74,7 +74,8 @@ filename=$(basename  ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
 echo $filename
 sleep 1
 echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} COPY YOUR KEYSTORE ${NC}\e[0m"
-wallet=$(grep -oP '(?<="address":")[^"]+' ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
+evm=$(grep -oP '(?<="address":")[^"]+' ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
+wallet='0x'$evm
 echo $wallet
 sleep 1
 
