@@ -58,7 +58,7 @@ export CHAIN_ID=union-testnet-4
 export MONIKER="$moniker_union"
 export KEY_NAME=union
 export GENESIS_URL="https://rpc.cryptware.io/genesis"
-export UNIOND_VERSION='v0.14.0'
+export UNIOND_VERSION='v0.17.0'
 
 # Download Docker Image
 echo -e "\e[1m\e[32m6. Download Docker Image... \e[0m" && sleep 1
@@ -84,6 +84,7 @@ cd $HOME
 cd ~/.union
 curl -o compose.yaml https://raw.githubusercontent.com/vnbnode/binaries/main/Projects/Union/compose.yaml
 docker compose up -d
+docker update --restart=unless-stopped union-node
 
 # NAMES=`docker ps | egrep 'sarvalabs/moipod' | awk '{print $18}'`
 cd $HOME
