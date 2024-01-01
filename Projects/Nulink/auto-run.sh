@@ -70,7 +70,7 @@ sleep 0.5
 read -r -p "NULINK_OPERATOR_ETH_PASSWORD : " NULINK_OPERATOR_ETH_PASSWORD
 sleep 0.5
 echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} YOUR KEYSTORE ${NC}\e[0m"
-filename=$(basename  ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
+filename=$(basename ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
 echo $filename
 sleep 1
 echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} COPY YOUR KEYSTORE ${NC}\e[0m"
