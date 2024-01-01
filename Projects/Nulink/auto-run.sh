@@ -69,3 +69,45 @@ read -r -p "NULINK_KEYSTORE_PASSWORD : " NULINK_KEYSTORE_PASSWORD
 sleep 0.5
 read -r -p "NULINK_OPERATOR_ETH_PASSWORD : " NULINK_OPERATOR_ETH_PASSWORD
 sleep 0.5
+echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} YOUR KEYSTORE ${NC}\e[0m"
+filename=$(basename  ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
+echo $filename
+sleep 1
+echo -e "\e[1;32m \e[0m\e[1;36m${CYAN} COPY YOUR KEYSTORE ${NC}\e[0m"
+wallet=$(grep -oP '(?<="address":")[^"]+' ~/geth-linux-amd64-1.10.23-d901d853/keystore/*)
+echo $wallet
+sleep 1
+
+# Initialize Node Configuration
+
+docker run -it --rm \
+-p 9151:9151 \
+-v /root/nulink:/code \
+-v /root/nulink:/home/circleci/.local/share/nulink \
+-e NULINK_KEYSTORE_PASSWORD \
+nulink/nulink nulink ursula init \
+--signer keystore:///$filename \
+--eth-provider https://data-seed-prebsc-2-s2.binance.org:8545 \
+--network horus \
+--payment-provider https://data-seed-prebsc-2-s2.binance.org:8545 \
+--payment-network bsc_testnet \
+--operator-address 0x$wallet \
+--max-gas-price 10000000000
+
+#Launch the Node
+
+docker run --restart on-failure -d \
+--name ursula \
+-p 9151:9151 \
+-v </path/to/host/machine/directory>:/code \
+-v </path/to/host/machine/directory>:/home/circleci/.local/share/nulink \
+-e NULINK_KEYSTORE_PASSWORD \
+-e NULINK_OPERATOR_ETH_PASSWORD \
+nulink/nulink nulink ursula run --no-block-until-ready
+
+# Logo
+sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
+echo '=============================== SETUP FINISHED ==============================='
+echo -e "\e[1;32m Start node: \e[0m\e[1;36m${CYAN} docker restart ursula ${NC}\e[0m"
+echo -e "\e[1;32m Check logs  : \e[0m\e[1;36m${CYAN} docker logs -f ursula ${NC}\e[0m"
+echo '======================== THANK FOR SUPPORT VNBnode ==========================='
