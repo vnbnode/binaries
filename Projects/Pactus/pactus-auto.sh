@@ -41,9 +41,26 @@ echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
 docker pull pactus/pactus
 sleep 1
 
-# Create wallet
-echo -e "\e[1m\e[32m5. Create wallet... \e[0m" && sleep 1
-docker run -it --rm -v ~/pactus/testnet:/pactus pactus/pactus init -w /pactus --testnet
+# Create wallet or Recovery wallet
+echo -e "\e[1m\e[32m5. Create wallet or Recovery wallet... \e[0m" && sleep 1
+SelectVersion="Please choose: \n 1. Create wallet (Gives you 60 seconds to save the seed wallet)\n 2. Recovery wallet"
+echo -e "${SelectVersion}"
+read -p "Enter index: " version;
+if [ "$version" != "2" ];then
+	docker run -it --rm -v ~/pactus:/root/pactus pactus/pactus pactus-daemon init
+    sleep 60
+else
+# Fill Wallet Seed
+if [ ! $walletseed ]; then
+    read -p "Fill in wallet seed: " walletseed
+    echo 'export walletseed='\"${walletseed}\" >> $HOME/.bash_profile
+fi
+echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
+source $HOME/.bash_profile
+sleep 1
+# Recovery wallet seed
+docker run -it --rm -v ~/pactus:/root/pactus pactus/pactus pactus-daemon init --restore "$walletseed"
+fi
 sleep 1
 
 # Fill in wallet password
@@ -66,7 +83,7 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m6. Run node pactus... \e[0m" && sleep 1
-docker run --network host -it --name $container_name_pactus -v $HOME/pactus/testnet:/pactus -d --name pactus pactus/pactus start -w /pactus -p $passpactus
+docker run -it -d -v ~/pactus:/root/pactus --network host --name $container_name_pactus pactus/pactus pactus-daemon start --password $passpactus
 docker update --restart=unless-stopped pactus
 sleep 1
 
