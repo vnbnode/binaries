@@ -52,7 +52,7 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-docker run --network host -v ./node-data/:/da/node-data availj/avail:v1.8.0.4 --chain goldberg --name ${VALIDATOR} --validator -d /da/node-data
+sudo docker run -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.8.0.4 --chain goldberg --name "${VALIDATOR}" --validator -d /da/avail
 sleep 1
 
 # Allow port 30333
@@ -60,8 +60,6 @@ echo -e "\e[1m\e[32m6. Allow Port 30333... \e[0m" && sleep 1
 sudo ufw allow 30333/tcp
 sudo ufw allow 30333/udp
 sleep 1
-
-rm $HOME/avail-auto.sh
 
 NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
 
