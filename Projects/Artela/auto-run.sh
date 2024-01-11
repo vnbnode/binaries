@@ -41,6 +41,7 @@ make install
 
 artelad config chain-id artela_11822-1
 artelad init "$NODE_MONIKER" --chain-id artela_11822-1
+sleep 1
 
 curl -s https://t-ss.nodeist.net/artela/genesis.json > $HOME/.artelad/config/genesis.json
 curl -s https://t-ss.nodeist.net/artela/addrbook.json > $HOME/.artelad/config/addrbook.json
@@ -57,7 +58,9 @@ sed -i 's|^snapshot-interval *=.*|snapshot-interval = 0|g' $HOME/.artelad/config
 sed -i 's|^minimum-gas-prices *=.*|minimum-gas-prices = "0.025art"|g' $HOME/.artelad/config/app.toml
 sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.artelad/config/config.toml
 
-sudo tee /etc/systemd/system/artelad.service > /dev/null << EOF
+#create service file
+
+tee /etc/systemd/system/artelad.service > /dev/null << EOF
 [Unit]
 Description=artela node
 After=network-online.target
@@ -75,16 +78,17 @@ artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
 snap install lz4
 
 curl -L https://t-ss.nodeist.net/artela/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad --strip-components 2
-echo -e "\e[1m\e[32m9. Run service\e[0m" && sleep 1
+
 sudo systemctl daemon-reload
 sudo systemctl enable artelad
 sudo systemctl start artelad
-
+sleep 1
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-echo '====================== SETUP FINISHED =============================================================='
-echo 'echo -e "\e[1;32mCheck status: \e[0m\e[1;36m${CYAN}sudo systemctl status artelad\e[0m"
-echo -e "\e[1;32mCheck logs: \e[0m\e[1;36m${CYAN}sudo journalctl -fu artelad -o cat\e[0m"
-echo -e "\e[1;32mCheck synchronization: \e[0m\e[1;36m${CYAN} artelad status | jq .SyncInfo.catching_up\e[0m"
-echo -e "\e[1;32mMore commands: \e[0m\e[1;36m${CYAN}$GITHUB${NC}\e[0m"
-echo '====================================================================================================='
+
+echo '====================== SETUP FINISHED ========================================='
+echo 'echo -e "\e[1;32mCheck status: \e[0m\e[1;36m${CYAN}sudo systemctl status artelad ${NC}\e[0m"
+echo -e "\e[1;32mCheck logs: \e[0m\e[1;36m${CYAN}sudo journalctl -fu artelad -o cat ${NC}\e[0m"
+echo -e "\e[1;32mCheck synchronization: \e[0m\e[1;36m${CYAN}artelad status | jq .SyncInfo.catching_up ${NC}\e[0m"
+echo -e "\e[1;32mMore commands: \e[0m\e[1;36m${CYAN}$GITHUB ${NC}\e[0m"
+echo '======================== THANK FOR SUPPORT VNBnode ==========================='
