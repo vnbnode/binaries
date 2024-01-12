@@ -76,6 +76,7 @@ WantedBy=multi-user.target
 EOF
 
 artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
+apt install snapd
 snap install lz4
 
 curl -L https://t-ss.nodeist.net/artela/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.artelad --strip-components 2
