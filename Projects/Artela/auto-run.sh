@@ -15,6 +15,7 @@ sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/
 # Set Var
 read -r -p "Enter node moniker: " MONIKER
 sleep 1
+export MONIKER=$MONIKER
 
 apt update && apt upgrade -y
 apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
@@ -40,7 +41,7 @@ git checkout v0.4.7-rc4
 make install
 
 artelad config chain-id artela_11822-1
-artelad init "$NODE_MONIKER" --chain-id artela_11822-1
+artelad init "$MONIKER" --chain-id artela_11822-1
 sleep 1
 
 curl -s https://t-ss.nodeist.net/artela/genesis.json > $HOME/.artelad/config/genesis.json
