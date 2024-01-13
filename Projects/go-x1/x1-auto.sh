@@ -196,6 +196,7 @@ docker exec -i x1 /app/x1 validator new --datadir /app/.x1 --password /app/valid
 echo "Restart Container : docker compose up -d --force-recreate"
 
 # NAMES=`docker ps | egrep 'pactus/pactus' | awk '{print $13}'`
+cd $HOME
 rm $HOME/x1-auto.sh
 
 # Command check
