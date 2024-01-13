@@ -216,4 +216,5 @@ echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start x1\e[0m"
 echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart x1\e[0m"
 echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop x1\e[0m"
 echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm x1\e[0m"
+echo -e "\e[1;32mRemember backup data in folder: \e[0m\e[1;36m$XEN_DIR/data/keystore\e[0m"
 echo '============================================================='
