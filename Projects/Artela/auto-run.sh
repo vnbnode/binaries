@@ -18,8 +18,9 @@ sleep 1
 export MONIKER=$MONIKER
 
 apt update && apt upgrade -y
+sleep 0.5
 apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
-
+sleep 0.5
 #INSTALL GO
 ver="1.20.3"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
