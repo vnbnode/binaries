@@ -43,22 +43,33 @@ docker -v
 
 sleep 1
 
-# Clone the repository and checkout the specified branch
-git config --global http.postBuffer 524288000
-git clone --depth 1 --branch x1 https://github.com/FairCrypto/go-x1 || echo "folder is existing"
-cd go-x1 &&  git fetch --depth 1
+# Define variables for directory paths
+XEN_DIR="$HOME/xen"
+DOCKER_DIR="$XEN_DIR/docker"
+DATA_DIR="$XEN_DIR/data"
 
-# Create Dockerfile
+PASSFOLDER="$XEN_DIR/pass"
 
-echo "xen/" > docker/.dockerignore
+# Create necessary directories
+mkdir -p "$DOCKER_DIR"
+mkdir -p "$DATA_DIR"
+mkdir -p "$PASSFOLDER"
 
-cat > docker/Dockerfile <<'EOF'
+
+###echo "xen/" > docker/.dockerignore
+
+cat > "$DOCKER_DIR/Dockerfile" <<'EOF'
 FROM golang:1.18-alpine as builder
 
 RUN apk add --no-cache make gcc musl-dev linux-headers git
 
 WORKDIR /go/go-x1
-COPY . .
+
+# Clone the repository
+ARG REPO_URL=https://github.com/FairCrypto/go-x1
+ARG BRANCH=x1
+RUN git clone --depth 1 --branch ${BRANCH} ${REPO_URL} .
+
 
 ARG GOPROXY
 RUN go mod tidy
@@ -83,19 +94,19 @@ ENTRYPOINT ["/app/x1"]
 EOF
 
 # Create Docker Compose file
-cat > docker-compose.yml <<'EOF'
+cat > "$DOCKER_DIR/docker-compose.yml" <<'EOF'
 version: '3.8'
 
 services:
   x1:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     command: ["--testnet", "--syncmode", "snap", "--datadir", "/app/.x1", "--xenblocks-endpoint", "ws://xenblocks.io:6668", "--gcmode", "full"]
     volumes:
-      - ./xen:/app/.x1  # Mount the 'xen' volume to /app/.x1 inside the container
-      - ./xen/account_password.txt:/app/account_password.txt
-      - ./xen/validator_password.txt:/app/validator_password.txt
+      - ../data:/app/.x1  # Mount the 'xen' volume to /app/.x1 inside the container
+      - ../pass/account_password.txt:/app/account_password.txt
+      - ../pass/validator_password.txt:/app/validator_password.txt
     ports:
       - "5050:5050"   # Expose the necessary ports
       - "18545:18545"
@@ -112,12 +123,11 @@ EOF
 
 
 # Build the Docker image
-docker compose build
 
-mkdir -p xen
+cd $DOCKER_DIR && docker compose build
 
 # Check if the xen/keystore directory exists
-if [ -d "xen/keystore" ] && [ "$(ls -A xen/keystore)" ]; then
+if [ -d "$XEN_DIR/data" ] && [ "$(ls -A $XEN_DIR/data)" ]; then
     echo -e "\033[0;31mFolder 'xen/keystore' is existing. Are you sure you want to override it?? (yes/no)\033[0m"
     read -p "Enter yes or no: " user_input
 
@@ -138,7 +148,7 @@ done
 
 
 # Output the password to a file
-echo "$input_password" > ./xen/account_password.txt
+echo "$input_password" > $PASSFOLDER/account_password.txt
 
 
 read -p ' ^|^m Enter Validator password: ' input_validator_password
@@ -150,9 +160,9 @@ do
 done
 
 # Output the password to a file
-echo "$input_validator_password" > ./xen/validator_password.txt
+echo "$input_validator_password" > $PASSFOLDER/validator_password.txt
 
-chmod 775 ./xen/*.txt
+chmod 775 $PASSFOLDER/*.txt
 
 # Create the persistent directory and start the container
 docker compose up -d
@@ -176,7 +186,7 @@ echo "x1 container is now running."
 # Use the password file for the docker exec command
 
 # Check if the xen/keystore directory exists and is not empty
-if [ -d "xen/keystore" ] && [ "$(ls -A xen/keystore)" ]; then
+if [ -d "$XEN_DIR/data" ] && [ "$(ls -A $XEN_DIR/data)" ]; then
     echo -e "\033[0;31mFolder 'xen/keystore' exists and is not empty. Are you sure you want to override it? (yes/no)\033[0m"
     read -p "Enter yes or no: " confirm_override
 
