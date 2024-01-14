@@ -82,7 +82,7 @@ sleep 0.5
 
 artelad tendermint unsafe-reset-all --home $HOME/.artelad --keep-addr-book
 sleep 0.5
-apt install snapd
+apt install snapd -y
 snap install lz4
 sleep 0.5
 
