@@ -62,7 +62,7 @@ sudo ufw allow 30333/udp
 sleep 1
 
 NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
-
+rm -r $HOME/avail-auto.sh
 # Command check
 echo '====================== SETUP FINISHED ======================'
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f ${NAMES}\e[0m"
