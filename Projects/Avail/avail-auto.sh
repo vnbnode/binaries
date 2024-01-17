@@ -47,12 +47,12 @@ sleep 1
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-docker pull availj/avail:v1.8.0.4
+docker pull availj/avail:v1.9.0.0
 sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.8.0.4 --chain goldberg --name "${VALIDATOR}" --validator -d /da/avail
+sudo docker run -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${VALIDATOR}" --validator -d /da/avail
 sleep 1
 
 # Allow port 30333
