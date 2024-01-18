@@ -60,6 +60,12 @@ mkdir -p "$DATA_DIR"
 mkdir -p "$PASSFOLDER"
 
 
+
+# Adjust permissions on host directories
+sudo chown -R $(id -u):$(id -g) $DATA_DIR
+sudo chown $(id -u):$(id -g) $PASSFOLDER
+sudo chown $(id -u):$(id -g) $PASSFOLDER
+
 ###echo "xen/" > docker/.dockerignore
 
 cat > "$DOCKER_DIR/Dockerfile" <<'EOF'
@@ -85,7 +91,9 @@ FROM alpine:latest
 
 RUN apk add --no-cache ca-certificates
 
-
+# Create a non-root user and switch to it
+RUN adduser -D app
+USER app
 # Create and set /app as the working directory
 WORKDIR /app
 COPY --from=builder /go/go-x1/build/x1 /app/
@@ -94,6 +102,11 @@ EXPOSE 5050 18545 18546
 
 ENTRYPOINT ["/app/x1"]
 EOF
+
+
+CURRENT_UID=$(id -u)
+CURRENT_GID=$(id -g)
+
 
 # Create Docker Compose file
 cat > "$DOCKER_DIR/docker-compose.yml" <<'EOF'
@@ -104,6 +117,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    user: "${CURRENT_UID}:${CURRENT_GID}"
     command: ["--testnet", "--syncmode", "snap", "--datadir", "/app/.x1", "--xenblocks-endpoint", "ws://xenblocks.io:6668", "--gcmode", "full"]
     volumes:
       - ../data:/app/.x1  # Mount the 'xen' volume to /app/.x1 inside the container
