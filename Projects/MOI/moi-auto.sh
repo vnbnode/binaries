@@ -134,6 +134,8 @@ else
     docker update --restart=unless-stopped $container_name_moi
 fi
 
+rm $HOME/moi-auto.sh
+
 # Command check
 echo '====================== SETUP FINISHED ======================'
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mtail -f $moi_dirpath/log/3*\e[0m"
@@ -151,6 +153,7 @@ echo '============================================================='
 docker stop $container_name_moi
 docker rm $container_name_moi
 rm -r $HOME/moi
+rm $HOME/moi-auto.sh
             break
             ;;
         "Quit")
