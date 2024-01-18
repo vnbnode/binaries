@@ -10,7 +10,7 @@ else
 fi
 
 # Logo
-sleep 0.5 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 0.5
+sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
 # Choice Option
 PS3='Please enter your choice: '
