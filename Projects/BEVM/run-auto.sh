@@ -53,7 +53,7 @@ sudo docker pull btclayer2/bevm:v0.1.1
 sleep 1
 
 # Run Node
-echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m5. Run node... \e[0m" && sleep 1
 sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$VALIDATOR" --validator "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"sleep 1
 
 # NAMES=`docker ps | egrep 'bevm/bevm' | awk '{print $10}'`
