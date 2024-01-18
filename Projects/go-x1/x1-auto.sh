@@ -28,6 +28,9 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 fi
 
+# Exit immediately if a command exits with a non-zero status.
+###set -e
+
 # Add the current user to the Docker group if not already added
 if ! groups ${USER} | grep -q '\bdocker\b'; then
     sudo groupadd docker || true
@@ -44,6 +47,7 @@ docker -v
 sleep 1
 
 # Define variables for directory paths
+mkdir "$HOME/xen"
 XEN_DIR="$HOME/xen"
 DOCKER_DIR="$XEN_DIR/docker"
 DATA_DIR="$XEN_DIR/data"
@@ -55,6 +59,12 @@ mkdir -p "$DOCKER_DIR"
 mkdir -p "$DATA_DIR"
 mkdir -p "$PASSFOLDER"
 
+
+
+# Adjust permissions on host directories
+sudo chown -R $(id -u):$(id -g) $DATA_DIR
+sudo chown $(id -u):$(id -g) $PASSFOLDER
+sudo chown $(id -u):$(id -g) $PASSFOLDER
 
 ###echo "xen/" > docker/.dockerignore
 
@@ -93,6 +103,11 @@ EXPOSE 5050 18545 18546
 ENTRYPOINT ["/app/x1"]
 EOF
 
+
+CURRENT_UID=$(id -u)
+CURRENT_GID=$(id -g)
+
+
 # Create Docker Compose file
 cat > "$DOCKER_DIR/docker-compose.yml" <<'EOF'
 version: '3.8'
@@ -102,6 +117,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    user: "${CURRENT_UID}:${CURRENT_GID}"
     command: ["--testnet", "--syncmode", "snap", "--datadir", "/app/.x1", "--xenblocks-endpoint", "ws://xenblocks.io:6668", "--gcmode", "full"]
     volumes:
       - ../data:/app/.x1  # Mount the 'xen' volume to /app/.x1 inside the container
@@ -127,15 +143,19 @@ EOF
 cd $DOCKER_DIR && docker compose build
 
 # Check if the xen/keystore directory exists
-if [ -d "$XEN_DIR/data" ] && [ "$(ls -A $XEN_DIR/data)" ]; then
-    echo -e "\033[0;31mFolder 'xen/keystore' is existing. Are you sure you want to override it?? (yes/no)\033[0m"
-    read -p "Enter yes or no: " user_input
+if [ -d "$XEN_DIR/data/keystore" ]; then
+    # Check if the directory is not empty
+    if [ "$(ls -A $XEN_DIR/data/keystore)" ]; then
+        echo -e "\033[0;31mFolder 'data/keystore' exists and is not empty. Are you sure you want to override it? (yes/no)\033[0m"
+        read -p "Enter yes or no: " user_input
 
-    if [ "$user_input" != "yes" ]; then
-        echo "Exiting without overriding."
-        exit 0
+        if [ "$user_input" != "yes" ]; then
+            echo "Exiting without overriding."
+            exit 0
+        fi
     fi
 fi
+
 
 
 read -p ' ^|^m Enter account password: ' input_password
@@ -185,16 +205,20 @@ done
 echo "x1 container is now running."
 # Use the password file for the docker exec command
 
-# Check if the xen/keystore directory exists and is not empty
-if [ -d "$XEN_DIR/data" ] && [ "$(ls -A $XEN_DIR/data)" ]; then
-    echo -e "\033[0;31mFolder 'xen/keystore' exists and is not empty. Are you sure you want to override it? (yes/no)\033[0m"
-    read -p "Enter yes or no: " confirm_override
+# Check if the xen/keystore directory exists
+if [ -d "$XEN_DIR/data/keystore" ]; then
+    # Check if the directory is not empty
+    if [ "$(ls -A $XEN_DIR/data/keystore)" ]; then
+        echo -e "\033[0;31mFolder 'data/keystore' exists and is not empty. Are you sure you want to override it? (yes/no)\033[0m"
+        read -p "Enter yes or no: " user_input
 
-    if [ "$confirm_override" != "yes" ]; then
-        echo "Exiting without overriding."
-        exit 0
+        if [ "$user_input" != "yes" ]; then
+            echo "Exiting without overriding."
+            exit 0
+        fi
     fi
 fi
+
 
 # Continue with the rest of the script...
 
@@ -202,8 +226,6 @@ fi
 docker exec -i x1 /app/x1 account new --datadir /app/.x1 --password /app/account_password.txt
 
 docker exec -i x1 /app/x1 validator new --datadir /app/.x1 --password /app/validator_password.txt
-
-echo "Restart Container : docker compose up -d --force-recreate"
 
 cd $HOME
 rm $HOME/auto-run.sh
