@@ -13,9 +13,9 @@ fi
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
 # Set name validator
-if [ ! $VALIDATOR ]; then
-    read -p "Enter Node Name: " VALIDATOR
-    echo 'export VALIDATOR='\"${VALIDATOR}\" >> $HOME/.bash_profile
+if [ ! $Walletbevm ]; then
+    read -p "Enter Wallet BEVM: " VALIDATOR
+    echo 'export Walletbevm='\"${Walletbevm}\" >> $HOME/.bash_profile
 fi
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 source $HOME/.bash_profile
@@ -54,8 +54,9 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node... \e[0m" && sleep 1
-sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$VALIDATOR" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
+sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
 # NAMES=`docker ps | egrep 'bevm/bevm' | awk '{print $10}'`
+rm -r $HOME/run-auto.sh
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
