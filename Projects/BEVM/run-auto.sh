@@ -48,6 +48,7 @@ sleep 1
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
 cd /var/lib
+rm -r node_bevm_test_storage
 mkdir node_bevm_test_storage
 sudo docker pull btclayer2/bevm:v0.1.1
 sleep 1
