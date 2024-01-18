@@ -40,39 +40,23 @@ sleep 1
 echo -e "\e[1m\e[32m4. Fill data... \e[0m" && sleep 1
 
 ## DIR_PATH
-if [ ! $moi_dirpath ]; then
-    read -p "DIR_PATH: " moi_dirpath
-    echo 'export moi_dirpath='\"${moi_dirpath}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "DIR_PATH: " moi_dirpath
+export moi_dirpath=$moi_dirpath
 sleep 1
 
 ## KEYSTORE_PATH
-if [ ! $moi_keystore ]; then
-    read -p "KEYSTORE_PATH: " moi_keystore
-    echo 'export moi_keystore='\"${moi_keystore}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "KEYSTORE_PATH: " moi_keystore
+export moi_keystore=$moi_keystore
 sleep 1
 
 ## PASSWD
-if [ ! $moi_passwd ]; then
-    read -p "PASSWORD KEYSTORE DOWNLOADED: " moi_passwd
-    echo 'export moi_passwd='\"${moi_passwd}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "PASSWORD KEYSTORE DOWNLOADED: " moi_passwd
+export moi_passwd=$moi_passwd
 sleep 1
 
 ## ADDRESS
-if [ ! $moi_address ]; then
-    read -p "ADDRESS: " moi_address
-    echo 'export moi_address='\"${moi_address}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "ADDRESS: " moi_address
+export moi_address=$moi_address
 sleep 1
 
 ## INDEX
