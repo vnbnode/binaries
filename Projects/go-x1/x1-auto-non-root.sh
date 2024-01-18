@@ -195,7 +195,7 @@ done
 echo "x1 container is now running."
 # Use the password file for the docker exec command
 
-chmod 775 $XEN_DIR/data/keystore
+sudo chmod 775 $XEN_DIR/data/keystore
 
 # Check if the xen/keystore directory exists
 if [ -d "$XEN_DIR/data/keystore" ]; then
