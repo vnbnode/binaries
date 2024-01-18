@@ -12,9 +12,9 @@ fi
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
-# Set name validator
+# Set walletbevm
 if [ ! $Walletbevm ]; then
-    read -p "Enter Wallet BEVM: " VALIDATOR
+    read -p "Enter Wallet BEVM: " Walletbevm
     echo 'export Walletbevm='\"${Walletbevm}\" >> $HOME/.bash_profile
 fi
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
