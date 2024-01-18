@@ -13,12 +13,8 @@ fi
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
 # Set walletbevm
-if [ ! $Walletbevm ]; then
-    read -p "Enter Wallet BEVM: " Walletbevm
-    echo 'export Walletbevm='\"${Walletbevm}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "Enter Wallet BEVM: " Walletbevm
+export Walletbevm=$Walletbevm
 sleep 1
 
 # Update
