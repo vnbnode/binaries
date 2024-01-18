@@ -60,30 +60,18 @@ export moi_address=$moi_address
 sleep 1
 
 ## INDEX
-if [ ! $moi_index ]; then
-    read -p "KRAMA ID INDEX: " moi_index
-    echo 'export moi_index='\"${moi_index}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "KRAMA ID INDEX: " moi_index
+export moi_index=$moi_index
 sleep 1
 
 ## IP
-if [ ! $moi_ip ]; then
-    read -p "IP PUBLIC: " moi_ip
-    echo 'export moi_ip='\"${moi_ip}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "IP PUBLIC: " moi_ip
+export moi_ip=$moi_ip
 sleep 1
 
 ## Container name
-if [ ! $container_name_moi ]; then
-    read -p "Container_name: " container_name_moi
-    echo 'export container_name_moi='\"${container_name_moi}\" >> $HOME/.bash_profile
-fi
-echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
-source $HOME/.bash_profile
+read -r -p "Container_name: " container_name_moi
+export container_name_moi=$container_name_moi
 sleep 1
 
 # Register and Start the Guardian Node
