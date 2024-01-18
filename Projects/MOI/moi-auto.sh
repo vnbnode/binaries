@@ -157,6 +157,7 @@ rm $HOME/moi-auto.sh
             break
             ;;
         "Quit")
+rm $HOME/moi-auto.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
