@@ -36,6 +36,48 @@ docker -v
 fi
 sleep 1
 
+# ADDRESS
+echo -e "\e[1m\e[32m3. Fill data... \e[0m" && sleep 1
+read -p ' ^|^m Enter ADDRESS: ' address_ev
+
+while [ "$address_ev" == "" ]
+do
+  echo -e "\033[0;31m   ^|^x Incorrect ADDRESS. \033[0m \n"
+  read -p ' ^|^m Enter ADDRESS again: ' address_ev
+done
+
+# PRIVATE_KEY
+read -p ' ^|^m Enter PRIVATE_KEY: ' private_key_ev
+
+while [ "$private_key_ev" == "" ]
+do
+  echo -e "\033[0;31m   ^|^x Incorrect PRIVATE_KEY. \033[0m \n"
+  read -p ' ^|^m Enter PRIVATE_KEY again: ' private_key_ev
+done
+
+# VALIDATOR_NAME
+read -p ' ^|^m Enter VALIDATOR_NAME: ' validator_name_ev
+
+while [ "$validator_name_ev" == "" ]
+do
+  echo -e "\033[0;31m   ^|^x Incorrect VALIDATOR_NAME. \033[0m \n"
+  read -p ' ^|^m Enter VALIDATOR_NAME again: ' validator_name_ev
+done
+
+# Create Dir
+mkdir "$HOME/ev"
+EV_DIR="$HOME/ev"
+DOCKERFILE="$EV_DIR"
+mkdir -p "$DOCKERFILE"
+
+# Output the password to a file
+echo 'FROM elixirprotocol/validator:testnet-2' >> $DOCKERFILE/Dockerfile
+echo '' >> $DOCKERFILE/Dockerfile
+echo 'ENV ADDRESS='$address_ev >> $DOCKERFILE/Dockerfile
+echo 'ENV PRIVATE_KEY='$private_key_ev >> $DOCKERFILE/Dockerfile
+echo 'ENV VALIDATOR_NAME='$validator_name_ev >> $DOCKERFILE/Dockerfile
+chmod 775 $DOCKERFILE/Dockerfile
+
 # Build Dockerfile
 echo -e "\e[1m\e[32m4. Build Dockerfile... \e[0m" && sleep 1
 cd $HOME
