@@ -42,7 +42,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 docker -v
 fi
 
-# Set walletbevm
+# Set Node Name
 read -r -p "Enter Node Name: " Avail_VALIDATOR
 export Avail_VALIDATOR=$Avail_VALIDATOR
 sleep 1
