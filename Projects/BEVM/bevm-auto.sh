@@ -44,8 +44,11 @@ fi
 
 # Set walletbevm
 read -r -p "Enter Wallet BEVM: " Walletbevm
-export Walletbevm=$Walletbevm
-sleep 1
+while [ "$Walletbevm" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect DIR_PATH. \033[0m \n"
+  read -p ' Enter DIR_PATH again: ' Walletbevm
+done
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
