@@ -47,38 +47,59 @@ echo -e "\e[1m\e[32m4. Fill data... \e[0m" && sleep 1
 
 ## DIR_PATH
 read -r -p "DIR_PATH: " moi_dirpath
-export moi_dirpath=$moi_dirpath
-sleep 1
+while [ "$moi_dirpath" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect DIR_PATH. \033[0m \n"
+  read -p ' Enter DIR_PATH again: ' moi_dirpath
+done
 
 ## KEYSTORE_PATH
 read -r -p "KEYSTORE_PATH: " moi_keystore
-export moi_keystore=$moi_keystore
-sleep 1
+while [ "$moi_keystore" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect KEYSTORE_PATH. \033[0m \n"
+  read -p ' Enter KEYSTORE_PATH again: ' moi_keystore
+done
 
 ## PASSWD
-read -r -p "PASSWORD KEYSTORE DOWNLOADED: " moi_passwd
-export moi_passwd=$moi_passwd
-sleep 1
+read -r -p "PASSWORD KEYSTORE: " moi_passwd
+while [ "$moi_passwd" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect PASSWORD KEYSTORE. \033[0m \n"
+  read -p ' Enter PASSWORD KEYSTORE again: ' moi_passwd
+done
 
 ## ADDRESS
 read -r -p "ADDRESS: " moi_address
-export moi_address=$moi_address
-sleep 1
+while [ "$moi_address" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect ADDRESS. \033[0m \n"
+  read -p ' Enter ADDRESS again: ' moi_address
+done
 
 ## INDEX
 read -r -p "KRAMA ID INDEX: " moi_index
-export moi_index=$moi_index
-sleep 1
+while [ "$moi_index" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect KRAMA ID INDEX. \033[0m \n"
+  read -p ' Enter KRAMA ID INDEX again: ' moi_index
+done
 
 ## IP
 read -r -p "IP PUBLIC: " moi_ip
-export moi_ip=$moi_ip
-sleep 1
+while [ "$moi_ip" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect IP PUBLIC. \033[0m \n"
+  read -p ' Enter IP PUBLIC again: ' moi_ip
+done
 
 ## Container name
 read -r -p "Container_name: " container_name_moi
-export container_name_moi=$container_name_moi
-sleep 1
+while [ "$container_name_moi" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect Container_name. \033[0m \n"
+  read -p ' Enter Container_name again: ' container_name_moi
+done
 
 # Register and Start the Guardian Node
 echo -e "\e[1m\e[32m5. Register the Guardian Node... \e[0m" && sleep 1
