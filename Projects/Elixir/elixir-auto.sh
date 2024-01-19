@@ -12,21 +12,28 @@ fi
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
+# Choice Option
+PS3='Please enter your choice: '
+options=("Install Node" "Update Node" "Remove Node" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Install Node")
 # Update
 echo -e "\e[1m\e[32m1. Update... \e[0m" && sleep 1
 sudo apt update && sudo apt upgrade -y
-sleep 1
 
 # Package
 echo -e "\e[1m\e[32m2. Installing package... \e[0m" && sleep 1
 sudo apt install curl tar wget clang pkg-config protobuf-compiler libssl-dev jq build-essential protobuf-compiler bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
-sleep 1
 
 # Check if Docker is already installed
+echo -e "\e[1m\e[32m3. Installing Docker... \e[0m" && sleep 1
 if command -v docker > /dev/null 2>&1; then
 echo "Docker is already installed."
 else
 # Docker is not installed, proceed with installation
+echo -e "\e[1m\e[32m3. Installing Docker... \e[0m" && sleep 1
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 rm $HOME/get-docker.sh
@@ -34,7 +41,6 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 docker -v
 fi
-sleep 1
 
 # ADDRESS
 echo -e "\e[1m\e[32m3. Fill data... \e[0m" && sleep 1
@@ -92,6 +98,7 @@ sleep 1
 
 cd $HOME
 rm $HOME/elixir-auto.sh
+
 # NAMES=`docker ps | egrep 'elixir-validator' | awk '{print $16}'`
 
 # Command check
@@ -102,4 +109,24 @@ echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start ev\e[0m"
 echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart ev\e[0m"
 echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop ev\e[0m"
 echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm ev\e[0m"
-echo '============================================================='
+echo '============================================================='          
+            break
+            ;;
+        "Update Node")
+echo -e "\e[1m\e[32mThis project cannot be updated this way\e[0m" && sleep 1
+            ;;
+        "Remove Node")
+# Remove the Guardian Node
+docker stop ev
+docker rm ev
+rm -r $HOME/ev
+rm $HOME/elixir-auto.sh
+            break
+            ;;
+        "Quit")
+rm $HOME/elixir-auto.sh
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
