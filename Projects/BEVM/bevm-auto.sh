@@ -110,7 +110,7 @@ rm $HOME/bevm-auto.sh
             break
             ;;
         "Quit")
-rm $HOME/moi-auto.sh
+rm $HOME/bevm-auto.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
