@@ -62,6 +62,8 @@ sleep 1
 echo -e "\e[1m\e[32m5. Run node... \e[0m" && sleep 1
 sudo docker run -d --name bevm -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
 
+cd $HOME
+
 # NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
 
 # Command check
@@ -87,6 +89,8 @@ sudo docker pull btclayer2/bevm:v0.1.1
 echo -e "\e[1m\e[32m2. Run node... \e[0m" && sleep 1
 sudo docker run -d --name bevm -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
 
+cd $HOME
+
 # Command check
 echo '====================== SETUP FINISHED ======================'
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f bevm\e[0m"
@@ -103,6 +107,7 @@ echo '============================================================='
 docker stop bevm
 docker rm bevm
 rm -r /var/lib/node_bevm_test_storage
+cd $HOME
             break
             ;;
         "Quit")
