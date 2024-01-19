@@ -50,38 +50,43 @@ do
   read -p ' Enter Node Name again: ' Avail_VALIDATOR
 done
 
+# Set Container Name
+read -r -p "Enter Container Name: " Avail_container_name
+while [ "$Avail_container_name" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect Container Name. \033[0m \n"
+  read -p ' Enter Container Name again: ' Avail_container_name
+done
+
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
 docker pull availj/avail:v1.9.0.0
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
+sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
 
 # Allow port 30333
 echo -e "\e[1m\e[32m6. Allow Port 30333... \e[0m" && sleep 1
 sudo ufw allow 30333/tcp
 sudo ufw allow 30333/udp
 
-rm -r $HOME/avail-auto.sh
-
-NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
+# NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f ${NAMES}\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f $Avail_container_name\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start ${NAMES}\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart ${NAMES}\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop ${NAMES}\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm ${NAMES}\e[0m"
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start $Avail_container_name\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart $Avail_container_name\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop $Avail_container_name\e[0m"
 echo '============================================================='     
             break
             ;;
         "Update Node")
-NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
-docker stop ${NAMES}
-docker rm ${NAMES}
+# NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
+docker stop $Avail_container_name
+docker rm $Avail_container_name
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
@@ -89,32 +94,27 @@ docker pull availj/avail:v1.9.0.0
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
-
-rm -r $HOME/avail-auto.sh
+sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f ${NAMES}\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f $Avail_container_name\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start ${NAMES}\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart ${NAMES}\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop ${NAMES}\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm ${NAMES}\e[0m"
-echo '============================================================='         
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start $Avail_container_name\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart $Avail_container_name\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop $Avail_container_name\e[0m"
+echo '============================================================='             
             break
             ;;
         "Remove Node")
 # Remove the Guardian Node
-NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
-docker stop ${NAMES}
-docker rm ${NAMES}
+# NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
+docker stop $Avail_container_name
+docker rm $Avail_container_name
 rm -r $HOME/avail
-rm $HOME/avail-auto.sh
             break
             ;;
         "Quit")
-rm $HOME/avail-auto.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
