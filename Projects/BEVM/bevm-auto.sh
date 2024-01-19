@@ -71,7 +71,6 @@ echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[
 echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start bevm\e[0m"
 echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart bevm\e[0m"
 echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop bevm\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm bevm\e[0m"
 echo '============================================================='     
             break
             ;;
@@ -95,7 +94,6 @@ echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[
 echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start bevm\e[0m"
 echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart bevm\e[0m"
 echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop bevm\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm bevm\e[0m"
 echo '============================================================='             
             break
             ;;
