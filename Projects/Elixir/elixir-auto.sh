@@ -28,7 +28,7 @@ echo -e "\e[1m\e[32m2. Installing package... \e[0m" && sleep 1
 sudo apt install curl tar wget clang pkg-config protobuf-compiler libssl-dev jq build-essential protobuf-compiler bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
 
 # Check if Docker is already installed
-echo -e "\e[1m\e[32m3. Installing Docker... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m3. Check if Docker is already installed... \e[0m" && sleep 1
 if command -v docker > /dev/null 2>&1; then
 echo "Docker is already installed."
 else
