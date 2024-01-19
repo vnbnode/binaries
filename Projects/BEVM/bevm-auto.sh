@@ -61,7 +61,7 @@ sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm bt
 
 rm -r $HOME/bevm-auto.sh
 
-NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $14}'`
+NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
@@ -86,7 +86,7 @@ sudo docker pull btclayer2/bevm:v0.1.1
 echo -e "\e[1m\e[32m2. Run node... \e[0m" && sleep 1
 sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
 
-NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $14}'`
+NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
 rm -r $HOME/bevm-auto.sh
 
 # Command check
