@@ -60,27 +60,25 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node... \e[0m" && sleep 1
-sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
+sudo docker run -d --name bevm -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
 
-rm -r $HOME/bevm-auto.sh
-
-NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
+# NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f ${NAMES}\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f bevm\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start ${NAMES}\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart ${NAMES}\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop ${NAMES}\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm ${NAMES}\e[0m"
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start bevm\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart bevm\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop bevm\e[0m"
+echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm bevm\e[0m"
 echo '============================================================='     
             break
             ;;
         "Update Node")
-NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
-docker stop ${NAMES}
-docker rm ${NAMES}
+# NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
+docker stop bevm
+docker rm bevm
 
 # Pull image new
 echo -e "\e[1m\e[32m1. Pull image... \e[0m" && sleep 1
@@ -88,32 +86,28 @@ sudo docker pull btclayer2/bevm:v0.1.1
 
 # Run Node
 echo -e "\e[1m\e[32m2. Run node... \e[0m" && sleep 1
-sudo docker run -d -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
-
-rm -r $HOME/bevm-auto.sh
+sudo docker run -d --name bevm -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0"
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f ${NAMES}\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f bevm\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start ${NAMES}\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart ${NAMES}\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop ${NAMES}\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm ${NAMES}\e[0m"
-echo '============================================================='         
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start bevm\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart bevm\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop bevm\e[0m"
+echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm bevm\e[0m"
+echo '============================================================='             
             break
             ;;
         "Remove Node")
 # Remove the Guardian Node
-NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $14}'`
-docker stop ${NAMES}
-docker rm ${NAMES}
+# NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $14}'`
+docker stop bevm
+docker rm bevm
 rm -r /var/lib/node_bevm_test_storage
-rm $HOME/bevm-auto.sh
             break
             ;;
         "Quit")
-rm $HOME/bevm-auto.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
