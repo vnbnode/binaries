@@ -44,8 +44,11 @@ fi
 
 # Set Node Name
 read -r -p "Enter Node Name: " Avail_VALIDATOR
-export Avail_VALIDATOR=$Avail_VALIDATOR
-sleep 1
+while [ "$Avail_VALIDATOR" == "" ]
+do
+  echo -e "\033[0;31m   >.< x Incorrect Node name. \033[0m \n"
+  read -p ' Enter Node Name again: ' Avail_VALIDATOR
+done
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
