@@ -142,8 +142,6 @@ if [ -d "$XEN_DIR/data/keystore" ]; then
     fi
 fi
 
-
-
 read -p ' ^|^m Enter account password: ' input_password
 
 while [ "$input_password" == "" ]
@@ -151,7 +149,6 @@ do
   echo -e "\033[0;31m   ^|^x Incorrect password. \033[0m \n"
   read -p ' ^|^m Enter account password: ' input_password
 done
-
 
 # Output the password to a file
 echo "$input_password" > $PASSFOLDER/account_password.txt
