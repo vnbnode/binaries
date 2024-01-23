@@ -86,8 +86,8 @@ do
   read -p ' Enter DIR_PATH again: ' Walletbevm
 done
 # NAMES=`docker ps | egrep 'btclayer2/bevm' | awk '{print $16}'`
-docker stop bevm
-docker rm bevm
+sudo docker stop bevm
+sudo docker rm bevm
 
 # Pull image new
 echo -e "\e[1m\e[32m1. Pull image... \e[0m" && sleep 1
