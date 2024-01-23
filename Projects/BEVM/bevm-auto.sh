@@ -61,6 +61,7 @@ sleep 1
 # Run Node
 echo -e "\e[1m\e[32m5. Run node... \e[0m" && sleep 1
 sudo docker run -d --name bevm -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0" --bootnodes /ip4/18.222.166.234/tcp/10000/ws/p2p/12D3KooWR1DNEVVWMaRJVfAkXTyZAZgnN159hNcPTooCSwMv4zbx /ip4/62.171.130.220/tcp/30333/ws/p2p/12D3KooWKiSXFw4eRP3zrvjtBNDEe4N6hfCDWppUUCBd9YwHH52w
+docker update --restart=unless-stopped bevm
 
 cd $HOME
 
@@ -95,6 +96,7 @@ sudo docker pull btclayer2/bevm:v0.1.1
 # Run Node
 echo -e "\e[1m\e[32m2. Run node... \e[0m" && sleep 1
 sudo docker run -d --name bevm -v /var/lib/node_bevm_test_storage:/root/.local/share/bevm btclayer2/bevm:v0.1.1 bevm "--chain=testnet" "--name=$Walletbevm" "--pruning=archive" --telemetry-url "wss://telemetry.bevm.io/submit 0" --bootnodes /ip4/18.222.166.234/tcp/10000/ws/p2p/12D3KooWR1DNEVVWMaRJVfAkXTyZAZgnN159hNcPTooCSwMv4zbx /ip4/62.171.130.220/tcp/30333/ws/p2p/12D3KooWKiSXFw4eRP3zrvjtBNDEe4N6hfCDWppUUCBd9YwHH52w
+docker update --restart=unless-stopped bevm
 
 cd $HOME
 
