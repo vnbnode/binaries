@@ -97,7 +97,6 @@ docker run -d --restart unless-stopped --name ev elixir-validator
 sleep 1
 
 cd $HOME
-rm $HOME/elixir-auto.sh
 
 # NAMES=`docker ps | egrep 'elixir-validator' | awk '{print $16}'`
 
@@ -120,11 +119,9 @@ echo -e "\e[1m\e[32mThis project cannot be updated this way\e[0m" && sleep 1
 docker stop ev
 docker rm ev
 rm -r $HOME/ev
-rm $HOME/elixir-auto.sh
             break
             ;;
         "Quit")
-rm $HOME/elixir-auto.sh
             break
             ;;
         *) echo "invalid option $REPLY";;
