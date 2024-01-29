@@ -60,11 +60,11 @@ done
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-docker pull availj/avail:v1.9.0.0
+docker pull availj/avail:v1.9.0.3
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
+sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.3 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
 
 # Allow port 30333
 echo -e "\e[1m\e[32m6. Allow Port 30333... \e[0m" && sleep 1
@@ -90,11 +90,11 @@ docker rm $Avail_container_name
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-docker pull availj/avail:v1.9.0.0
+docker pull availj/avail:v1.9.0.3
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
+sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.9.0.3 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
