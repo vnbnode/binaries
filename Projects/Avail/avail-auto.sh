@@ -95,7 +95,8 @@ rm -r $HOME/avail/chains/avail_goldberg_testnet/db
 rm -r $HOME/avail/chains/avail_goldberg_testnet/network
 # Download Snapshot
 echo -e "\e[1m\e[32m3. Download Snapshot... \e[0m" && sleep 1
-curl -o - -L http://snapshots.staking4all.org/snapshots/avail/latest/avail.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/avail/chains/avail_goldberg_testnet/
+sudo snap install lz4
+curl -o - -L https://snapshots.avail.nexus/goldberg/avail_goldberg_testnet_snapshot_jan_31.tar.gz | tar -xz -C
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
