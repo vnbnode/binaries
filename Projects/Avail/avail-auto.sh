@@ -85,14 +85,17 @@ echo '============================================================='
             ;;
         "Update Node")
 # NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
+
 # Stop avail
 echo -e "\e[1m\e[32m1. Stop Avail... \e[0m" && sleep 1
 docker stop $Avail_container_name
 # docker rm $Avail_container_name
+
 # Remove old data chain
 echo -e "\e[1m\e[32m2. Remove old data chain... \e[0m" && sleep 1
 rm -r $HOME/avail/chains/avail_goldberg_testnet/db 
 rm -r $HOME/avail/chains/avail_goldberg_testnet/network
+
 # Download Snapshot
 echo -e "\e[1m\e[32m3. Download Snapshot... \e[0m" && sleep 1
 sudo snap install lz4
