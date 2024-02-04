@@ -99,5 +99,5 @@ sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/
 echo '====================== SETUP FINISHED ========================================='
 echo -e "\e[1;32m Check status: \e[0m\e[1;36m${CYAN} sudo systemctl status artelad ${NC}\e[0m"
 echo -e "\e[1;32m Check logs: \e[0m\e[1;36m${CYAN} sudo journalctl -fu artelad -o cat ${NC}\e[0m"
-echo -e "\e[1;32m Check synchronization: \e[0m\e[1;36m${CYAN} artelad status | jq .SyncInfo.catching_up ${NC}\e[0m"
+echo -e "\e[1;32m Check synchronization: \e[0m\e[1;36m${CYAN} artelad status 2>&1 | jq .SyncInfo ${NC}\e[0m"
 echo '======================== THANK FOR SUPPORT VNBnode ==========================='
