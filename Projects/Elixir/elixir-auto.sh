@@ -112,7 +112,7 @@ echo '============================================================='
             break
             ;;
         "Update Node")
-echo -e "\e[1m\e[32mThis project cannot be updated this way\e[0m" && sleep 1
+echo -e "\e[1m\e[32mThis project cannot be updated this way\e[0m"
             ;;
         "Remove Node")
 # Remove the Guardian Node
