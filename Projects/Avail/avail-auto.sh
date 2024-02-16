@@ -60,11 +60,11 @@ done
 
 # Pull image new
 echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-docker pull availj/avail:v1.10.0.0
+docker pull availj/avail:v1.11.0.0
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.10.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
+sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.11.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
 
 # Allow port 30333
 echo -e "\e[1m\e[32m6. Allow Port 30333... \e[0m" && sleep 1
@@ -84,41 +84,7 @@ echo '============================================================='
             break
             ;;
         "Update Node")
-# NAMES=`docker ps | egrep 'availj/avail' | awk '{print $10}'`
-
-# Stop avail
-echo -e "\e[1m\e[32m1. Stop Avail... \e[0m" && sleep 1
-docker stop $Avail_container_name
-# docker rm $Avail_container_name
-
-# Remove old data chain
-echo -e "\e[1m\e[32m2. Remove old data chain... \e[0m" && sleep 1
-rm -r $HOME/avail/chains/avail_goldberg_testnet/db 
-rm -r $HOME/avail/chains/avail_goldberg_testnet/network
-
-# Download Snapshot
-echo -e "\e[1m\e[32m3. Download Snapshot... \e[0m" && sleep 1
-sudo snap install lz4
-curl -o - -L https://snapshots.avail.nexus/goldberg/avail_goldberg_testnet_snapshot_jan_31.tar.gz | tar -xz -C
-
-# Pull image new
-echo -e "\e[1m\e[32m4. Pull image... \e[0m" && sleep 1
-docker pull availj/avail:v1.10.0.0
-
-# Run Node
-echo -e "\e[1m\e[32m5. Run node avail... \e[0m" && sleep 1
-docker restart avail
-# sudo docker run --name $Avail_container_name -v $(pwd)/avail/:/da/avail:rw --network host -d --restart unless-stopped availj/avail:v1.10.0.0 --chain goldberg --name "${Avail_VALIDATOR}" --validator -d /da/avail
-
-# Command check
-echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f $Avail_container_name\e[0m"
-echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start $Avail_container_name\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart $Avail_container_name\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop $Avail_container_name\e[0m"
-echo '============================================================='             
-            break
+echo -e "\e[1m\e[32mThis project cannot be updated this way\e[0m"  
             ;;
         "Remove Node")
 # Remove the Guardian Node
