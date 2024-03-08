@@ -41,6 +41,4 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sleep 1
 
-rm $HOME/docker-install.sh
-
 echo -e "\e[1m\e[32mFINISH \e[0m" && sleep 1
