@@ -143,17 +143,11 @@ echo -e "${SelectVersion}"
 read -p "Enter index: " version;
 if [ "$version" != "2" ];then
     docker stop $container_name_moi
-    docker rm $container_name_moi
-    rm -r $HOME/moi/db
-    rm -r $HOME/moi/consensus
-    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
+    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=false
     docker update --restart=unless-stopped $container_name_moi
 else
     docker stop $container_name_moi
-    docker rm $container_name_moi
-    rm -r $HOME/moi/db
-    rm -r $HOME/moi/consensus
-    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.6.4-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd
+    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.6.4-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=false
     docker update --restart=unless-stopped $container_name_moi
 fi
 
