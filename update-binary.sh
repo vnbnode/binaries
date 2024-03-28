@@ -34,10 +34,12 @@ rm "go$VER.linux-amd64.tar.gz"
 [ ! -f ~/.bash_profile ] && touch ~/.bash_profile
 echo "export PATH=$PATH:/usr/local/go/bin:~/go/bin" >> ~/.bash_profile
 source $HOME/.bash_profile
-eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
-eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 }
 [ ! -d ~/go/bin ] && mkdir -p ~/go/bin
+
+# 
+eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
+eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 
 cd $HOME
 
