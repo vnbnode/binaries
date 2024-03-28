@@ -40,6 +40,5 @@ eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 [ ! -d ~/go/bin ] && mkdir -p ~/go/bin
 
 cd $HOME
-rm $HOME/go-install.sh
 
 echo -e "\e[1m\e[32mFINISH \e[0m" && sleep 1
