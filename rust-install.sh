@@ -29,6 +29,4 @@ rustup update
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
 
-rm $HOME/rust-install.sh
-
 echo -e "\e[1m\e[32mFINISH \e[0m" && sleep 1
