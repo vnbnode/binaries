@@ -37,10 +37,6 @@ source $HOME/.bash_profile
 }
 [ ! -d ~/go/bin ] && mkdir -p ~/go/bin
 
-# 
-eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
-eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
-
 cd $HOME
 
 echo -e "\e[1m\e[32mFINISH \e[0m" && sleep 1
