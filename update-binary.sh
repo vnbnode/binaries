@@ -13,7 +13,6 @@ fi
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
 
 # Update
-cd $HOME
 echo -e "\e[1m\e[32m1. Update... \e[0m" && sleep 1
 sudo apt update && sudo apt upgrade -y
 sleep 1
@@ -25,8 +24,7 @@ sleep 1
 
 # Go
 echo -e "\e[1m\e[32m3. Installing Go... \e[0m" && sleep 1
-! [ -x "$(command -v go)" ] && {
-VER="1.21.7"
+VER="1.21.3"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -34,7 +32,6 @@ rm "go$VER.linux-amd64.tar.gz"
 [ ! -f ~/.bash_profile ] && touch ~/.bash_profile
 echo "export PATH=$PATH:/usr/local/go/bin:~/go/bin" >> ~/.bash_profile
 source $HOME/.bash_profile
-}
 [ ! -d ~/go/bin ] && mkdir -p ~/go/bin
 
 cd $HOME
