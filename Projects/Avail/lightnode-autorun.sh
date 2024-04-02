@@ -11,7 +11,7 @@ fi
 
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.4 BY VNBNODE ==============='&& sleep 1
+echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.9 BY VNBNODE ==============='&& sleep 1
 
 # Update & Install Rust
 sudo apt-get update
@@ -27,7 +27,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly
 # Download and run  Avail Light Client
 git clone https://github.com/availproject/avail-light.git
 cd avail-light
-git checkout v1.7.4
+git checkout v1.7.9
 cargo build --release
 
 # Setup service file
