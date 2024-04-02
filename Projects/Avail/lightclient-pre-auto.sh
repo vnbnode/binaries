@@ -11,7 +11,7 @@ fi
 
 # Logo
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.9 BY VNBNODE ==============='&& sleep 1
+echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.10 BY VNBNODE ==============='&& sleep 1
 # Upgrade
 sudo apt update
 sudo apt install make clang pkg-config libssl-dev build-essential
@@ -21,8 +21,8 @@ mkdir -p ${HOME}/avail-light
 cd avail-light
 
 sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.9 BY VNBNODE ==============='&& sleep 1
-wget https://github.com/availproject/avail-light/releases/download/v1.7.9/avail-light-linux-amd64.tar.gz
+echo '================ SETUP FOR AVAIL LIGHT CLIENT VERSION 1.7.10 BY VNBNODE ==============='&& sleep 1
+wget https://github.com/availproject/avail-light/releases/download/v1.7.10/avail-light-linux-amd64.tar.gz
 tar -xvzf avail-light-linux-amd64.tar.gz
 cp avail-light-linux-amd64 avail-light
 
