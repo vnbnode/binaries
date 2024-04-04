@@ -108,11 +108,11 @@ echo -e "${SelectVersion}"
 read -p "Enter index: " version;
 if [ "$version" != "2" ];then
 	sudo docker run -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:latest register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_dirpath/keystore.json --mnemonic-keystore-password $moi_passwd --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
-        sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=false
+        sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=true
         docker update --restart=unless-stopped $container_name_moi
 else
-        sudo docker run -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:v0.7.0-port register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_dirpath/keystore.json --mnemonic-keystore-password $moi_passwd --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
-	sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.6.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=false
+        sudo docker run -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp --rm -it -w /data -v $(pwd):/data sarvalabs/moipod:v0.7.1-port register --data-dir $moi_dirpath --mnemonic-keystore-path $moi_dirpath/keystore.json --mnemonic-keystore-password $moi_passwd --watchdog-url https://babylon-watchdog.moi.technology/add --node-password $moi_passwd --network-rpc-url https://voyage-rpc.moi.technology/babylon --wallet-address $moi_address --node-index $moi_index --local-rpc-url http://$moi_ip:1600
+	sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.7.1-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=true
         docker update --restart=unless-stopped $container_name_moi
 fi
 
@@ -143,11 +143,11 @@ echo -e "${SelectVersion}"
 read -p "Enter index: " version;
 if [ "$version" != "2" ];then
     docker stop $container_name_moi
-    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=false
+    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:latest server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=true
     docker update --restart=unless-stopped $container_name_moi
 else
     docker stop $container_name_moi
-    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.7.0-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=false
+    sudo docker run --name $container_name_moi -p 1600:1600 -p 6000:6000/tcp -p 6000:6000/udp -it -d -w /data -v $(pwd):/data sarvalabs/moipod:v0.7.1-port server --babylon --data-dir $moi_dirpath --log-level DEBUG --node-password $moi_passwd --clean-db=true
     docker update --restart=unless-stopped $container_name_moi
 fi
 
