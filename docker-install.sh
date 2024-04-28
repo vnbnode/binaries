@@ -24,8 +24,14 @@ sudo apt install curl tar wget clang pkg-config protobuf-compiler libssl-dev jq 
 sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y
 sleep 1
 
-# Docker
+# Check if Docker is installed and remove it
+if dpkg -l | grep -qw docker; then
 echo -e "\e[1m\e[32m3. Installing docker... \e[0m" && sleep 1
+sudo apt-get remove -y docker docker-engine docker.io containerd runc || { echo "Failed to remove existing Docker installations"; exit 1; }
+fi
+
+# Docker
+echo -e "\e[1m\e[32m4. Installing docker... \e[0m" && sleep 1
 sudo apt-get update
 sudo apt-get install \
 ca-certificates \
