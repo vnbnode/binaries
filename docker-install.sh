@@ -26,7 +26,7 @@ sleep 1
 
 # Check if Docker is installed and remove it
 if dpkg -l | grep -qw docker; then
-echo -e "\e[1m\e[32m3. Installing docker... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m3. Removing old Docker versions... \e[0m" && sleep 1
 sudo apt-get remove -y docker docker-engine docker.io containerd runc || { echo "Failed to remove existing Docker installations"; exit 1; }
 fi
 
