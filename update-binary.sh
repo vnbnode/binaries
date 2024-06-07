@@ -20,6 +20,7 @@ sleep 1
 # Package
 echo -e "\e[1m\e[32m2. Installing package... \e[0m" && sleep 1
 sudo apt install curl tar wget clang pkg-config protobuf-compiler libssl-dev jq build-essential protobuf-compiler bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
+sudo apt -qy upgrade
 sleep 1
 
 # Check if Go is installed and remove it
