@@ -58,7 +58,7 @@ sed -i "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0ua0gi\"/" $HOME/.0gch
 
 # create service
 
-sudo tee /etc/systemd/system/0gd.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/0g.service > /dev/null <<EOF
 [Unit]
 Description=0G Node
 After=network.target
