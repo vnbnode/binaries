@@ -18,6 +18,12 @@ read -r -p "Enter node moniker: " MONIKER
 echo 'export MONIKER='$MONIKER >> $HOME/.bash_profile
 sleep 1
 
+source $HOME/.bash_profile
+echo 'export CHAIN_ID="zgtendermint_16600-1"' >> ~/.bash_profile
+echo 'export WALLET_NAME="wallet"' >> ~/.bash_profile
+source $HOME/.bash_profile
+sleep 1
+
 # Build binary
 sleep 1
 
@@ -31,35 +37,30 @@ mkdir -p $HOME/.0gchain/cosmovisor/genesis/bin
 cp $HOME/go/bin/0gchaind $HOME/.0gchain/cosmovisor/genesis/bin/
 sudo ln -s $HOME/.0gchain/cosmovisor/genesis $HOME/.0gchain/cosmovisor/current -f
 sudo ln -s $HOME/.0gchain/cosmovisor/current/bin/0gchaind /usr/local/bin/0gchaind -f
+0gchaind version
 cd $HOME
+
 
 sleep 1
 
-# Cosmovisor Setup
+# Service Setup
 
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
-sudo tee /etc/systemd/system/0g.service > /dev/null << EOF
+sudo tee /etc/systemd/system/0g.service > /dev/null <<EOF
 [Unit]
-Description=0G node service
-After=network-online.target
- 
+Description=0G Node
+After=network.target
+
 [Service]
 User=$USER
-ExecStart=$(which cosmovisor) run start
+Type=simple
+ExecStart=$(which 0gchaind) start --home $HOME/.0gchain
 Restart=on-failure
-RestartSec=10
 LimitNOFILE=65535
-Environment="DAEMON_HOME=$HOME/.0gchain"
-Environment="DAEMON_NAME=0gchaind"
-Environment="UNSAFE_SKIP_BACKUP=true"
- 
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
-sleep 1
-sudo systemctl daemon-reload
-sudo systemctl enable 0g
 sleep 1
 
 # initiate Node
@@ -74,7 +75,7 @@ rm $HOME/.0gchain/config/genesis.json
 wget https://github.com/0glabs/0g-chain/releases/download/v0.2.3/genesis.json -O $HOME/.0gchain/config/genesis.json
 sleep 1
 
-Configure
+# Configure
 seeds=$(curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Projects/0g/seeds.txt)
 sed -i.bak -e "s/^seeds *=.*/seeds = \"$seeds\"/" $HOME/.0gchain/config/config.toml
 sleep 1
@@ -112,9 +113,12 @@ sed -i \
   sleep 1
 
 # Start Node
-
+sudo systemctl daemon-reload
+sudo systemctl enable 0g
 sudo systemctl restart 0g
+sleep 2
 
 echo '====================== SETUP FINISHED =============================================================='
 echo 'echo -e "\e[1;32mCheck logs: \e[0m\e[1;36m${YELLOW} sudo journalctl -u 0gd -f -o cat \e[0m"
 echo '====================================================================================================='
+sleep 2
