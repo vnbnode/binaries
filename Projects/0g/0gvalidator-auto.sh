@@ -38,8 +38,7 @@ make install
 cd $HOME
 0gchaind init $MONIKER --chain-id $CHAIN_ID
 0gchaind config chain-id $CHAIN_ID
-0gchaind config node tcp://localhost:$RPC_PORT
-0gchaind config keyring-backend os # You can set it to "test" so you will not be asked for a password
+0gchaind config keyring-backend os
 
 # download genesis
 
@@ -77,10 +76,8 @@ EOF
 # start service
 
 sudo systemctl daemon-reload && \
-sudo systemctl enable 0gd && \
-sudo systemctl restart 0gd && \
-sudo journalctl -u 0gd -f -o cat
-
+sudo systemctl enable 0g && \
+sudo systemctl restart 0g
 echo '=============== SETUP FINISHED ==================='
 echo -e 'Check the logs : sudo journalctl -u 0g -f -o cat'
 echo -e "Check status: sudo systemctl status 0g.service"
