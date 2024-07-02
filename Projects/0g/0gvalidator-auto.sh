@@ -18,7 +18,6 @@ read -r -p "Enter node moniker: " MONIKER
 echo 'export MONIKER='$MONIKER >> $HOME/.bash_profile
 sleep 1
 
-fi
 source $HOME/.bash_profile
 echo 'export CHAIN_ID="zgtendermint_16600-1"' >> ~/.bash_profile
 echo 'export WALLET_NAME="wallet"' >> ~/.bash_profile
