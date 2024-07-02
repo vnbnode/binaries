@@ -18,29 +18,25 @@ read -r -p "Enter node moniker: " MONIKER
 echo 'export MONIKER='$MONIKER >> $HOME/.bash_profile
 sleep 1
 
+fi
 source $HOME/.bash_profile
 echo 'export CHAIN_ID="zgtendermint_16600-1"' >> ~/.bash_profile
 echo 'export WALLET_NAME="wallet"' >> ~/.bash_profile
+echo 'export RPC_PORT="10157"' >> ~/.bash_profile
 source $HOME/.bash_profile
-sleep 1
+echo '================================================='
+echo -e "Your Node Name Is: \e[1m\e[32m$MONIKER\e[0m"
+echo '================================================='
+sleep 2
 
 # Build binary
 sleep 1
 
 git clone -b v0.2.3 https://github.com/0glabs/0g-chain.git
-git checkout v0.2.3-testnet
-./0g-chain/networks/testnet/install.sh
-source ~/.profile
 cd 0g-chain
 make install
-mkdir -p $HOME/.0gchain/cosmovisor/genesis/bin
-cp $HOME/go/bin/0gchaind $HOME/.0gchain/cosmovisor/genesis/bin/
-sudo ln -s $HOME/.0gchain/cosmovisor/genesis $HOME/.0gchain/cosmovisor/current -f
-sudo ln -s $HOME/.0gchain/cosmovisor/current/bin/0gchaind /usr/local/bin/0gchaind -f
 0gchaind version
 cd $HOME
-
-
 sleep 1
 
 # Service Setup
@@ -64,7 +60,7 @@ EOF
 sleep 1
 
 # initiate Node
-
+cd $HOME
 0gchaind init $MONIKER --chain-id $CHAIN_ID
 0gchaind config chain-id $CHAIN_ID
 0gchaind config keyring-backend os
