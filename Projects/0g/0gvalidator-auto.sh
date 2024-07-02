@@ -14,10 +14,10 @@ cd $HOME && source <(curl -s https://raw.githubusercontent.com/vnbnode/binaries/
 sleep 1
 
 # Set Var
-read -r -p "Enter node moniker: " MONIKER
-echo 'export MONIKER='$MONIKER >> $HOME/.bash_profile
-sleep 1
-
+if [ ! $MONIKER ]; then
+	read -p "Enter node name: " MONIKER
+	echo 'export MONIKER='$MONIKER >> $HOME/.bash_profile
+fi
 source $HOME/.bash_profile
 echo 'export CHAIN_ID="zgtendermint_16600-1"' >> ~/.bash_profile
 echo 'export WALLET_NAME="wallet"' >> ~/.bash_profile
