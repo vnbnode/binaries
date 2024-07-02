@@ -9,9 +9,6 @@ else
   sudo apt update && sudo apt install curl -y < "/dev/null"
 fi
 
-# Logo
-sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-
 cd $HOME && source <(curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/update-binary.sh)
 
 sleep 1
