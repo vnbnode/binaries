@@ -342,7 +342,7 @@ rm -rf $HOME/0g-storage-node
 
 kv_menu() {
     PS3='Please enter your choice: '
-    options=("Install" "Remove KV Storage" "Back" "Quit")
+    options=("Install" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -364,7 +364,7 @@ kv_menu() {
 
 da_menu() {
     PS3='Please enter your choice: '
-    options=("Install" "Remove DA Node" "Back" "Quit")
+    options=("Install" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
