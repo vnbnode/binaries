@@ -167,7 +167,7 @@ echo -e "\e[1m\e[32m9. Start Node... \e[0m" && sleep 1
 sudo systemctl restart 0g
 
 # Command check
-IP_Public=wget -qO- eth0.me
+IP_Public=curl ifconfig.me
 P2P_Peers=echo $(0gchaind tendermint show-node-id)'@'$(curl -s ifconfig.me)':'$(cat $HOME/.0gchain/config/config.toml | sed -n '/Address to listen for incoming connection/{n;p;}' | sed 's/.*://; s/".*//')
 echo '====================== SETUP FINISHED ======================'
 echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36mjournalctl -fu $name_project_0g -o cat\e[0m"
