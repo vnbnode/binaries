@@ -1,16 +1,23 @@
 #!/bin/bash
 
-# Prompt user for the password
-read -p "Enter your keystore password: " your_password
+# Prompt user for the operating system
+read -p "Are you using Linux? (yes/no): " os_choice
 
 # Step 1: Install Logo
 curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh
 
-# Step 2: Download Light Validator Binary
-curl -O https://dill-release.s3.ap-southeast-1.amazonaws.com/linux/dill.tar.gz
+# Step 2: Download Light Validator Binary based on the operating system choice
+if [ "$os_choice" == "yes" ]; then
+    curl -O https://dill-release.s3.ap-southeast-1.amazonaws.com/linux/dill.tar.gz
+else
+    curl -O https://dill-release.s3.ap-southeast-1.amazonaws.com/macos/dill.tar.gz
+fi
 
 # Step 3: Extract the package
 tar -xzvf dill.tar.gz && cd dill
+
+# Prompt user for the keystore password
+read -p "Enter your keystore password: " your_password
 
 # Step 4: Generate Validator Keys
 ./dill_validators_gen new-mnemonic --num_validators=1 --chain=andes --folder=./
