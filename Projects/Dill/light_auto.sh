@@ -1,47 +1,205 @@
 #!/bin/bash
 
-# Prompt user for the operating system
-read -p "Are you using Linux? (yes/no): " os_choice
+_ROOT="$(pwd)" && cd "$(dirname "$0")" && ROOT="$(pwd)"
+PJROOT="$ROOT"
 
-# Step 1: Install Logo
-curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh
+# Ask for OS type
+os_type=$(uname)
+chip=$(uname -m)
 
-# Step 2: Download Light Validator Binary based on the operating system choice
-if [ "$os_choice" == "yes" ]; then
-    curl -O https://dill-release.s3.ap-southeast-1.amazonaws.com/linux/dill.tar.gz
+DILL_DARWIN_ARM64_URL="https://dill-release.s3.ap-southeast-1.amazonaws.com/v1.0.1/dill-v1.0.1-darwin-arm64.tar.gz"
+DILL_LINUX_AMD64_URL="https://dill-release.s3.ap-southeast-1.amazonaws.com/v1.0.1/dill-v1.0.1-linux-amd64.tar.gz"
+
+echo ""
+echo "********** Step 1: Checking hardware/OS and downloading dill software package **********"
+echo ""
+
+if [ "$os_type" == "Darwin" ];then
+    if [ "$chip" == "arm64" ];then
+        echo "Supported, os_type: $os_type, chip: $chip"
+        curl -O $DILL_DARWIN_ARM64_URL
+        tar -zxvf dill-v1.0.1-darwin-arm64.tar.gz
+    else
+        echo "Unsupported, os_type: $os_type, chip: $chip"
+        exit 1
+    fi
 else
-    curl -O https://dill-release.s3.ap-southeast-1.amazonaws.com/macos/dill.tar.gz
+    if [ "$chip" == "x86_64" ] && [ -f /etc/os-release ];then
+        if ! grep -qi "flags.*:.*adx" /proc/cpuinfo; then
+            echo "Unsupported CPU: Missing the required instruction set extension (adx)"
+            exit 1
+        fi
+        source /etc/os-release
+        if [ "$ID" == "ubuntu" ];then
+            major_version=$(echo $VERSION_ID | cut -d. -f1)
+            if [ $major_version -ge 20 ]; then
+                echo "Supported, os: $ID $VERSION_ID, chip: $chip"; echo""
+                curl -O $DILL_LINUX_AMD64_URL
+                tar -zxvf dill-v1.0.1-linux-amd64.tar.gz
+            else
+                echo "Unsupported, os: $ID $VERSION_ID (ubuntu 20.04+ required)"
+                exit 1
+            fi
+        else
+            echo "Unsupported, os_type: $os_type, chip: $chip, $ID $VERSION_ID"
+            exit 1
+        fi
+    else
+        echo "Unsupported, os_type: $os_type, chip: $chip"
+        exit 1
+    fi
 fi
 
-# Step 3: Extract the package
-tar -xzvf dill.tar.gz && cd dill
+DILL_DIR="$PJROOT/dill"
 
-# Prompt user for the keystore password
-read -p "Enter your keystore password: " your_password
+dill_proc=$(ps axu | grep -v grep | grep dill-node | grep andes | grep light)
+if [ ! -z "$dill_proc" ];then
+    echo "It seems that there is already a dill light node running."
+    echo "Only one dill node allowed in one machine."
+    echo "If you want to launch a new one, you need to stop the currently running dill node."
+    echo ""
+    echo $dill_proc
+    exit 1
+fi
 
-# Step 4: Generate Validator Keys
-./dill_validators_gen new-mnemonic --num_validators=1 --chain=andes --folder=./
+# Define variables
+KEYS_DIR="$DILL_DIR/validator_keys"
+KEYSTORE_DIR="$DILL_DIR/keystore"
+PASSWORD_FILE="$KEYS_DIR/keystore_password.txt"
 
-# Step 5: Import Validator Keys
-# During this process, set and save your keystore password.
-./dill-node accounts import --andes --wallet-dir ./keystore --keys-dir validator_keys/ --accept-terms-of-use
+if [ "$os_type" == "x86_64" ];then
+    # check env variables LC_ALL and LANG
+    locale_a_value=$(locale -a)
+    locale_a_lower_value=$(echo $locale_a_value | tr '[:upper:]' '[:lower:]')
+    
+    lc_all_value=$(echo "$LC_ALL")
+    lc_all_lower_value=$(echo "$LC_ALL" | tr '[:upper:]' '[:lower:]' | sed 's/-//g')
+    if ! echo $locale_a_lower_value | grep -q "\<$lc_all_lower_value\>"; then
+        if echo $locale_a_lower_value | grep -q "c.utf8"; then
+            export LC_ALL=C.UTF-8
+            echo "LC_ALL value $lc_all_value not found in locale -a ($locale_a_value), and set to C.UTF-8 now"
+        else
+            echo "LC_ALL value $lc_all_value not found in locale -a ($locale_a_value), and can't set to C.UTF-8!!!"
+        fi
+    fi
+    
+    lang_value=$(echo "$LANG")
+    lang_lower_value=$(echo "$LANG" | tr '[:upper:]' '[:lower:]' | sed 's/-//g')
+    if ! echo $locale_a_lower_value | grep -q "\<$lang_lower_value\>"; then
+        if echo $locale_a_lower_value | grep -q "c.utf8"; then
+            export LANG=C.UTF-8
+            echo "LANG value $lang_value not found in locale -a ($locale_a_value), and set to C.UTF-8 now"
+        else
+            echo "LANG value $lang_value not found in locale -a ($locale_a_value), and can't set to C.UTF-8"
+        fi
+    fi
+fi
 
-# Step 6: Save Password to a File
-echo "$your_password" > walletPw.txt
+echo ""
+echo "Step 1 Completed. Press any key to continue..."
+read -n 1 -s -r
+echo ""  # Move to a new line after the key press
 
-# Step 7: Start Light Validator Node
-nohup ./start_light.sh -p walletPw.txt &
+echo ""
+echo "********** Step 2: Generating Validator Keys **********"
+echo ""
 
-# Wait for a moment to ensure the process has started
-sleep 2
+echo "Validator Keys are generated from a mnemonic"
+mnemonic=""
+save_mnemonic=""
+timestamp=$(date +%s)
+mnemonic_path="$DILL_DIR/validator_keys/mnemonic-$timestamp.txt"
+cd $DILL_DIR
+while true; do
+    read -p "Please choose an option for mnemonic source [1, From a new mnemonic, 2, Use existing mnemonic] [1]: " mne_src
+    mne_src=${mne_src:-1}  # Set default choice to 1
+    case "$mne_src" in
+        "1" | "new")
+            ./dill_validators_gen generate-mnemonic --mnemonic_path $mnemonic_path
+            ret=$?
+            if [ $ret -ne 0 ]; then
+                echo "dill_validators_gen generate-mnemonic failed"
+                exit 1
+            fi
+            save_mnemonic="yes"
+            mnemonic="$(cat $mnemonic_path)"
+            break
+            ;;
+        "2" | "existing")
+            read -p "Enter your existing mnemonic: " existing_mnemonic
+            if [[ $existing_mnemonic =~ ^([a-zA-Z]+[[:space:]]+){11,}[a-zA-Z]+$ ]]; then
+                mnemonic="$existing_mnemonic"
+                break
+            else
+                echo ""
+                echo "[Error]Invalid mnemonic format. A valid mnemonic should consist of 12 or more space-separated words."
+            fi
+            ;;
+        *)
+            echo ""
+            echo "[Error] $mne_src is not a valid mnemonic source option"
+            ;;
+    esac
+done
 
-# Navigate back to home directory
-cd $HOME
+# wait enter password
+password=""
+echo ""
+echo "Generate a random password that secures your validator keystore(s)."
+password=$(openssl rand -base64 12)  # Generate a random password
+echo ""
+echo "Generated password: $password"
+echo ""
+echo "The password will be saved to $PASSWORD_FILE. Press any key to continue..."
+read -n 1 -s -r
+echo ""  # Move to a new line after the key press
+[ ! -d "$KEYS_DIR" ] && mkdir -p "$KEYS_DIR"
+echo $password > $PASSWORD_FILE
 
-# Display verification instructions
-echo -e "\n\033[32mSetup complete!\033[0m"
-echo -e "\n\033[33mTo check logs, use the following command:\033[0m"
-echo -e "\033[32mtail -f \$HOME/dill/light_node/logs/dill.log\033[0m\n"
-echo -e "\033[32mcurl -s localhost:3500/eth/v1/beacon/headers | jq\033[0m\n"
-echo -e "\033[32mps -ef | grep dill\033[0m\n"
-echo -e "\033[32m./health_check.sh -v\033[0m\n"
+# Generate validator keys
+./dill_validators_gen existing-mnemonic --mnemonic="$mnemonic" --validator_start_index=0 --num_validators=1 --chain=andes --deposit_amount=2500 --keystore_password="$password"
+ret=$?
+if [ $ret -ne 0 ]; then
+    echo "dill_validators_gen existing-mnemonic failed"
+    exit 1
+fi
+echo ""
+echo "Step 2 Completed. Press any key to continue..."
+read -n 1 -s -r
+echo ""  # Move to a new line after the key press
+
+echo ""
+echo "********** Step 3: Import keys and start dill-node **********"
+echo ""
+
+# Import your keys to your keystore
+echo "Importing keys to keystore..."
+./dill-node accounts import --andes --wallet-dir $KEYSTORE_DIR --keys-dir $KEYS_DIR --accept-terms-of-use --account-password-file $PASSWORD_FILE --wallet-password-file $PASSWORD_FILE
+
+# Start the light validator node
+echo "Starting light validator node..."
+./start_light.sh
+
+sleep 3
+# Check if the node is up and running
+echo "Checking if the node is up and running..."
+dill_proc=`ps -ef | grep dill | grep light`
+if [ ! -z "$dill_proc" ]; then
+    echo "node running, congratulations 😄"
+else 
+    echo "node not running, something went wrong!!! 😢"
+    exit 1
+fi
+
+deposit_file=$(ls -t $DILL_DIR/validator_keys/deposit_data-* | head -n 1)
+pubkeys=($(grep -o '"pubkey": "[^"]*' $deposit_file | sed 's/"pubkey": "//')) 
+echo -e "\033[0;36mvalidator pubkey\033[0m: $pubkeys"
+
+if [ "$save_mnemonic" == "yes" ]; then
+    echo -e "\033[0;31mPlease backup $mnemonic_path. Required for recovery and migration. Important ！！！\033[0m"
+fi
+
+echo ""
+echo "Step 3 Completed. The whole process finished. Press any key..."
+read -n 1 -s -r
+echo ""  # Move to a new line after the key press
