@@ -69,12 +69,15 @@ source $HOME/.bash_profile
 
 # Build binary
 echo -e "\e[1m\e[32m4. Build binary... \e[0m" && sleep 1
-git clone -b v0.3.0-testnet https://github.com/0glabs/0g-chain.git
-git checkout v0.3.0-testnet
-./0g-chain/networks/testnet/install.sh
-source ~/.profile
-cd 0g-chain
-make install
+#git clone -b v0.3.0-testnet https://github.com/0glabs/0g-chain.git
+#git checkout v0.3.0-testnet
+#./0g-chain/networks/testnet/install.sh
+#source ~/.profile
+#cd 0g-chain
+#make install
+wget -O $HOME/0gchaind https://zgchaind-test.s3.ap-east-1.amazonaws.com/0gchaind-linux-v0.3.0
+chmod +x $HOME/0gchaind
+mv $HOME/0gchaind $HOME/go/bin/0gchaind
 mkdir -p $HOME/.0gchain/cosmovisor/genesis/bin
 cp $HOME/go/bin/0gchaind $HOME/.0gchain/cosmovisor/genesis/bin/
 sudo ln -s $HOME/.0gchain/cosmovisor/genesis $HOME/.0gchain/cosmovisor/current -f
@@ -94,10 +97,11 @@ ExecStart=$(which cosmovisor) run start
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=65535
-Environment="DAEMON_HOME=$HOME/.0gchain"
 Environment="DAEMON_NAME=0gchaind"
-Environment="UNSAFE_SKIP_BACKUP=true"
- 
+Environment="DAEMON_HOME=/root/.0gchain"
+Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=true"
+Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+
 [Install]
 WantedBy=multi-user.target
 EOF
