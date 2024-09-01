@@ -102,7 +102,6 @@ echo -e "\e[1m\e[32m4. Build Dockerfile... \e[0m" && sleep 1
 cd $HOME
 cd ev
 docker pull elixirprotocol/validator:v3
-# docker build . -f Dockerfile -t elixir-validator
 sleep 1
 
 # Run Node
@@ -116,12 +115,12 @@ cd $HOME
 
 # Command check
 echo '====================== SETUP FINISHED ======================'
-echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36msudo docker logs -f ev\e[0m"
+echo -e "\e[1;32mView the logs from the running: \e[0m\e[1;36m sudo docker logs -f elixir\e[0m"
 echo -e "\e[1;32mCheck the list of containers: \e[0m\e[1;36msudo docker ps -a\e[0m"
-echo -e "\e[1;32mStart your node: \e[0m\e[1;36msudo docker start ev\e[0m"
-echo -e "\e[1;32mRestart your node: \e[0m\e[1;36msudo docker restart ev\e[0m"
-echo -e "\e[1;32mStop your node: \e[0m\e[1;36msudo docker stop ev\e[0m"
-echo -e "\e[1;32mRemove: \e[0m\e[1;36msudo docker rm ev\e[0m"
+echo -e "\e[1;32mStart your node: \e[0m\e[1;36m sudo docker start elixir\e[0m"
+echo -e "\e[1;32mRestart your node: \e[0m\e[1;36m sudo docker restart elixir\e[0m"
+echo -e "\e[1;32mStop your node: \e[0m\e[1;36m sudo docker stop elixir\e[0m"
+echo -e "\e[1;32mRemove: \e[0m\e[1;36m sudo docker rm elixir\e[0m"
 echo '============================================================='          
             break
             ;;
@@ -130,8 +129,8 @@ echo -e "\e[1m\e[32mThis project cannot be updated this way\e[0m"
             ;;
         "Remove Node")
 # Remove the Guardian Node
-docker stop ev
-docker rm ev
+docker stop elixir
+docker rm elixir
 rm -r $HOME/ev
             break
             ;;
