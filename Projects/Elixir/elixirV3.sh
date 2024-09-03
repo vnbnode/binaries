@@ -106,7 +106,7 @@ sleep 1
 
 # Run Node
 echo -e "\e[1m\e[32m5. Run Node... \e[0m" && sleep 1
-docker run -d --restart unless-stopped --name elixir elixirprotocol/validator:v3
+docker run -d --env-file $DOCKERFILE/Dockerfile --restart unless-stopped --name elixir elixirprotocol/validator:v3
 sleep 1
 
 cd $HOME
