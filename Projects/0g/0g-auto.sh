@@ -75,7 +75,7 @@ echo -e "\e[1m\e[32m4. Build binary... \e[0m" && sleep 1
 #source ~/.profile
 #cd 0g-chain
 #make install
-wget -O $HOME/0gchaind https://zgchaind-test.s3.ap-east-1.amazonaws.com/0gchaind-linux-v0.3.0
+wget -O $HOME/0gchaind https://github.com/0glabs/0g-chain/releases/download/v0.3.2/0gchaind-linux-v0.3.2
 chmod +x $HOME/0gchaind
 mv $HOME/0gchaind $HOME/go/bin/0gchaind
 mkdir -p $HOME/.0gchain/cosmovisor/genesis/bin
