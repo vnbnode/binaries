@@ -257,10 +257,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source $HOME/.cargo/env
 
 # 4. Git clone the 0g storage node repository
-git clone -b v0.4.6 https://github.com/0glabs/0g-storage-node.git
+git clone -b v0.5.0 https://github.com/0glabs/0g-storage-node.git
 cd $HOME/0g-storage-node
 git fetch
-git checkout tags/v0.4.6
+git checkout tags/v0.5.0
 git submodule update --init
 
 # 5. Build the project
