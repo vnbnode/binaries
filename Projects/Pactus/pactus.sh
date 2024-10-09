@@ -120,6 +120,7 @@ make build
 # Copy binaries to /usr/local/bin/
 cp $HOME/.pactus/build/pactus-daemon /usr/local/bin/
 cp $HOME/.pactus/build/pactus-wallet /usr/local/bin/
+cp $HOME/.pactus/build/pactus-shell /usr/local/bin/
 
 # Verify Pactus Daemon Installation
 if ! command -v pactus-daemon &> /dev/null
