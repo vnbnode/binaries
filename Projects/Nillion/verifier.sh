@@ -33,5 +33,5 @@ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin dock
 sudo docker --version
 sudo docker pull nillion/verifier:v1.0.1
 
-mkdir -p $HOME/nillion/accuser
+mkdir -p $HOME/nillion/verifier
 docker run -v ./nillion/verifier:/var/tmp nillion/verifier:v1.0.1 initialise
