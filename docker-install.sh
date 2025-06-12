@@ -10,7 +10,7 @@ else
 fi
 
 # Logo
-sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
+sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 3
 
 # Update
 cd $HOME
