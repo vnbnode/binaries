@@ -6,7 +6,7 @@ exists() {
 
 # Cài curl nếu chưa có
 if ! exists curl; then
-  sudo apt update && sudo apt install curl -y < "/dev/null"
+  apt install sudo & sudo apt upgrade & sudo apt update && sudo apt install curl -y < "/dev/null"
 fi
 
 # Hiển thị logo
