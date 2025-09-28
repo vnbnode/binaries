@@ -1,60 +1,52 @@
 #!/bin/bash
 
-#!/bin/bash
-exists()
-{
+set -e
+
+exists() {
   command -v "$1" >/dev/null 2>&1
 }
-if exists curl; then
-echo ''
-else
-  sudo apt update && sudo apt install curl -y < "/dev/null"
+
+# Cài curl nếu chưa có
+if ! exists curl; then
+  apt update && apt install -y curl
 fi
 
-map_deepin_to_debian() {
-    if [ "$1" -lt 20 ]; then
-        echo "stretch"
-    elif [ "$1" -ge 20 ]; then
-        echo "buster"
-    else
-        echo "Unknown version of Deepin"
-        exit 1
-    fi
-}
-
-# Get Deepin version
-DEEPIN_VERSION=$(grep 'VERSION_ID' /etc/os-release | cut -d '"' -f 2)
-DEBIAN_VERSION=$(map_deepin_to_debian "$DEEPIN_VERSION")
-
-# Logo
-sleep 1 && curl -s https://raw.githubusercontent.com/vnbnode/binaries/main/Logo/logo.sh | bash && sleep 1
-
-# Update
-cd $HOME
-echo -e "\e[1m\e[32m1. Update... \e[0m" && sleep 1
-sudo apt-get update -y
-sudo apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common || { echo "Failed to install dependencies"; exit 1; }
+# Hiển thị logo
+echo -e "\033[0;35m"
+echo " ============================================================================"
+echo "||░██═╗░░░░░░░██╗░███╗░░██╗░███████═╗░░███╗░░██╗ █████╗░██████═╗░░░███████╗░||"
+echo "||░░██╚╗░░░░░██╔╝░████╗░██║░██╔══███╝░░████╗░██║██╔══██╗██╔══ ██╚╗░██╔════╝░||"
+echo "||░░░██╚╗░░░██╔╝░░██╔██╗██║░██████╔╝░░░██╔██╗██║██║░░██║██║░░░░██║░█████╗░░░||"
+echo "||░░░░██╚╗░██╔╝░░░██║╚████║ ██╔══███╗░░██║╚████║██║░░██║██╚══ ██╔╝░██╔══╝░░░||"
+echo "||░░░░░█████╔╝░░░░██║░╚███║ ███████ ║░░██║░╚███║╚█████╔╝██████░║░░░███████╗░||"
+echo "||░░░░░░╚═══╝░░░░░╚═╝░░╚══╝░╚══════╝░░░╚═╝░░╚══╝░╚════╝░╚══════╝░░░╚══════╝░||"
+echo " ============================================================================"
+echo -e "\e[0m"
 sleep 1
 
-# Package
-echo -e "\e[1m\e[32m2. Installing package... \e[0m" && sleep 1
-sudo apt install curl tar wget clang pkg-config protobuf-compiler libssl-dev jq build-essential protobuf-compiler bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
-sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y
-sleep 1
+# Cài các gói cần thiết cho Docker
+echo -e "\e[1m\e[32m1. Cài đặt gói cần thiết cho Docker... \e[0m" && sleep 1
+apt update
+apt install -y ca-certificates curl gnupg lsb-release
 
-# Check if Docker is installed and remove it
+# Gỡ docker cũ nếu có
 if dpkg -l | grep -qw docker; then
-echo -e "\e[1m\e[32m3. Removing old Docker versions... \e[0m" && sleep 1
-sudo apt-get remove -y docker docker-engine docker.io containerd runc || { echo "Failed to remove existing Docker installations"; exit 1; }
+  echo -e "\e[1m\e[32m2. Gỡ bỏ Docker cũ... \e[0m" && sleep 1
+  apt remove -y docker docker-engine docker.io containerd runc
 fi
 
-# Docker
-echo -e "\e[1m\e[32m4. Installing docker... \e[0m" && sleep 1
-echo "Adding Docker's GPG key..."
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - || { echo "Failed to add Docker's GPG key"; exit 1; }
-sudo apt-get update -y
-sudo apt-get install -y docker-ce || { echo "Failed to install Docker CE"; exit 1; }
-sudo usermod -aG docker $(whoami) || { echo "Failed to add user to Docker group"; exit 1; }
-sleep 1
+# Thêm kho Docker và khóa GPG
+echo -e "\e[1m\e[32m3. Thêm kho Docker và khóa GPG... \e[0m" && sleep 1
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
 
-echo -e "\e[1m\e[32mFINISH \e[0m" && sleep 1
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" \
+  | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Cài Docker Engine và Docker Compose plugin
+echo -e "\e[1m\e[32m4. Cài đặt Docker... \e[0m" && sleep 1
+apt update
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo -e "\e[1m\e[32m✅ Docker đã được cài đặt thành công trên Debian 12! \e[0m"
